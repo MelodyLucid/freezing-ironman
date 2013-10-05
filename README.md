@@ -1,10 +1,18 @@
-miniboxing-plugin-example
+<img src="http://scala-miniboxing.org/mbox2-thumbnail.png" alt="Miniboxing Logo" align="right">
+miniboxing-example
 =========================
 
-An example of using the miniboxing plugin with your sbt project:
+An example of using the miniboxing plugin with your sbt project. The changes to the normal build script are located in the
+[`miniboxingSettings`](https://github.com/miniboxing/miniboxing-example/blob/master/project/Build.scala#L21-30) 
+value in [`project/Build.scala`](https://github.com/miniboxing/miniboxing-example/blob/master/project/Build.scala).
 
+For more details on the miniboxing plugin and how to use it, please visit [scala-miniboxing.org](http://scala-miniboxing.org).
+
+Example usage:
 ```
-$ cd miniboxing-plugin-example
+$ git clone https://github.com/miniboxing/miniboxing-example.git
+
+$ cd miniboxing-example
 
 $ cat src/main/scala/miniboxing/example/Test.scala 
 package miniboxing.example
