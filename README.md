@@ -1,9 +1,8 @@
 <img src="http://scala-miniboxing.org/mbox2-thumbnail.png" alt="Miniboxing Logo" align="right">
-miniboxing-example
-=========================
+#Miniboxing Example - Sbt Project
 
-An example of using the miniboxing plugin with your sbt project. The changes to the normal build script are located in the
-[`miniboxingSettings`](https://github.com/miniboxing/miniboxing-example/blob/master/project/Build.scala#L21-30) 
+This is an example of using the miniboxing plugin with your sbt project. The changes to the normal build script are located in the
+[`miniboxingSettings`](https://github.com/miniboxing/miniboxing-example/blob/master/project/Build.scala#L21-34) 
 value in [`project/Build.scala`](https://github.com/miniboxing/miniboxing-example/blob/master/project/Build.scala).
 
 For more details on the miniboxing plugin and how to use it, please visit [scala-miniboxing.org](http://scala-miniboxing.org).
@@ -134,3 +133,7 @@ MyTuple of [String, String] dot getClass(): class miniboxing.example.MyTuple2_LL
 [success] Total time: 0 s, completed Aug 21, 2013 3:59:16 AM
 > 
 ```
+
+
+#### Try miniboxing on your own! [Read more](http://scala-miniboxing.org) or [use miniboxing with your project](https://github.com/miniboxing/miniboxing-example).
+Or have a look at an [array reverse example](https://gist.github.com/VladUreche/6891789).
