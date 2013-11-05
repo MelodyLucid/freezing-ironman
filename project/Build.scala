@@ -13,7 +13,7 @@ object MyBuild extends Build {
       // The plugin requires the latest version of the scalac compiler. You
       // can use older compilers, but before reporting a bug, please check
       // that it can be reproduced with the latest version of the compiler.
-      scalaVersion := "2.10.4-SNAPSHOT"
+      scalaVersion := "2.10.3"
     ) ++ miniboxingSettings
   )
 
