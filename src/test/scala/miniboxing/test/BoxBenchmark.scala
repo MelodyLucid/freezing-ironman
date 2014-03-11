@@ -32,27 +32,27 @@ extends PerformanceTest.Quickbenchmark {
   performance of "ImmutableBoxes" in {
     measure method "retrieve" in {
       using(genericBoxGen) in {
-        b => b.retrieve + 1
+        b => (0 until 300000).map(_ => b.retrieve + 1)
       }
       using(specBoxGen) in {
-        b => b.retrieve + 1
+        b => (0 until 300000).map(_ => b.retrieve + 1)
       }
       using(miniBoxGen) in {
-        b => b.retrieve + 1
+        b => (0 until 300000).map(_ => b.retrieve + 1)
       }
     }
   }
   
   performance of "MutableBoxes" in {
-    measure method "retrieve" in {
+    measure method "add" in {
       using(mutGenericBoxGen) in {
-        b => b.add(1) + 1
+        b => (0 until 300000).map(_ => b.add(1) + 1)
       }
       using(mutSpecBoxGen) in {
-        b => b.add(1) + 1
+        b => (0 until 300000).map(_ => b.add(1) + 1)
       }
       using(mutMiniBoxGen) in {
-        b => b.add(1) + 1
+        b => (0 until 300000).map(_ => b.add(1) + 1)
       }
     }
   }
