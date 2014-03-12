@@ -1,4 +1,4 @@
-package miniboxing.example
+package miniboxing.example.box
 
 class SpecializedBox[@specialized T](private val boxed: T) {
   def retrieve: T = boxed

@@ -1,12 +1,12 @@
 package miniboxing.test
 
 import org.scalameter.api._
-import miniboxing.example.MiniBox
-import miniboxing.example.SpecializedBox
-import miniboxing.example.GenericBox
-import miniboxing.example.MutableSpecializedBox
-import miniboxing.example.MutableMiniBox
-import miniboxing.example.MutableGenericBox
+import miniboxing.example.box.MiniBox
+import miniboxing.example.box.GenericBox
+import miniboxing.example.box.SpecializedBox
+import miniboxing.example.box.MutableMiniBox
+import miniboxing.example.box.MutableGenericBox
+import miniboxing.example.box.MutableSpecializedBox
 
 object BoxBenchmark
 extends PerformanceTest.Quickbenchmark {
