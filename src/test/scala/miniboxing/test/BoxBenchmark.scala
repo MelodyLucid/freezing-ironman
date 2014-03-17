@@ -37,9 +37,9 @@ extends PerformanceTest.Quickbenchmark {
           var result = 0
           while (i < 30000000) {
             result += b.retrieve
-            i+=1
+            i += 1
           }
-          println(result)
+          println("[Immutable Boxes] Generic result: " + result)
       }
       using(specBoxGen) in {
         b => 
@@ -47,9 +47,9 @@ extends PerformanceTest.Quickbenchmark {
           var result = 0
           while (i < 30000000) {
             result += b.retrieve
-            i+=1
+            i += 1
           }
-          println(result)
+          println("[Immutable Boxes] Specialized result: " + result)
       }
       using(miniBoxGen) in {
         b =>
@@ -57,9 +57,9 @@ extends PerformanceTest.Quickbenchmark {
           var result = 0
           while (i < 30000000) {
             result += b.retrieve
-            i+=1
+            i += 1
           }
-          println(result)
+          println("[Immutable Boxes] Miniboxed result: " + result)
       }
     }
   }
@@ -67,13 +67,34 @@ extends PerformanceTest.Quickbenchmark {
   performance of "MutableBoxes" in {
     measure method "add" in {
       using(mutGenericBoxGen) in {
-        b => (0 until 300000).map(_ => b.add(1) + 1)
+        b => 
+          var i = 0
+          var result = 0
+          while (i < 30000000) {
+            result += b.add(1)
+            i += 1
+          }
+          println("[Mutable Boxes] Generic result: " + result)
       }
       using(mutSpecBoxGen) in {
-        b => (0 until 300000).map(_ => b.add(1) + 1)
+        b => 
+          var i = 0
+          var result = 0
+          while (i < 30000000) {
+            result += b.add(1)
+            i += 1
+          }
+          println("[Mutable Boxes] Specialized result: " + result)
       }
       using(mutMiniBoxGen) in {
-        b => (0 until 300000).map(_ => b.add(1) + 1)
+        b => 
+          var i = 0
+          var result = 0
+          while (i < 30000000) {
+            result += b.add(1)
+            i += 1
+          }
+          println("[Mutable Boxes] Miniboxed result: " + result)
       }
     }
   }
