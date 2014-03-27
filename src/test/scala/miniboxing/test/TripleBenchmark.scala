@@ -17,6 +17,8 @@ extends PerformanceTest.Quickbenchmark {
   val spTriple = new SpecializedTriple[Int, String, Double](3, "3.5", 3.5)
   val gnTriple = new GenericTriple[Int, String, Double](3, "3.5", 3.5)
   
+  assert(mbTriple.getClass.getSimpleName() == "MiniboxedTriple_JLJ")
+  
   val mbTripleGen = Gen.single("Miniboxed Triple")(mbTriple)
   val spTripleGen = Gen.single("Specialized Triple")(spTriple)
   val gnTripleGen = Gen.single("Generic Triple")(gnTriple)

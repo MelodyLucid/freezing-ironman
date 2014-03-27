@@ -15,22 +15,26 @@ extends PerformanceTest.Quickbenchmark {
   val size: Int = 30000000
 
   // Immutable boxes
-  val specBox: SpecializedBox[Int] = new SpecializedBox[Int](1)
-  val genericBox: GenericBox[Int] = new GenericBox[Int](1)
-  val miniBox: MiniBox[Int] = new MiniBox[Int](1)
+  val specBox = new SpecializedBox[Int](1)
+  val genericBox = new GenericBox[Int](1)
+  val miniBox = new MiniBox[Int](1)
   
-  val genericBoxGen: Gen[GenericBox[Int]] = Gen.single("genericBox")(genericBox)
-  val specBoxGen: Gen[SpecializedBox[Int]] = Gen.single("specBox")(specBox)
-  val miniBoxGen: Gen[MiniBox[Int]] = Gen.single("miniBox")(miniBox)
+  assert(miniBox.getClass.getSimpleName() == "MiniBox_J")
+  
+  val genericBoxGen = Gen.single("Generic Box")(genericBox)
+  val specBoxGen = Gen.single("Specialized Box")(specBox)
+  val miniBoxGen = Gen.single("Miniboxed Box")(miniBox)
 
   // Mutable boxes
-  val mutSpecBox: MutableSpecializedBox[Int] = new MutableSpecializedBox[Int](1)
-  val mutGenericBox: MutableGenericBox[Int] = new MutableGenericBox[Int](1)
-  val mutMiniBox: MutableMiniBox[Int] = new MutableMiniBox[Int](1)
+  val mutSpecBox = new MutableSpecializedBox[Int](1)
+  val mutGenericBox = new MutableGenericBox[Int](1)
+  val mutMiniBox = new MutableMiniBox[Int](1)
   
-  val mutGenericBoxGen: Gen[MutableGenericBox[Int]] = Gen.single("mutGenericBox")(mutGenericBox)
-  val mutSpecBoxGen: Gen[MutableSpecializedBox[Int]] = Gen.single("mutSpecBox")(mutSpecBox)
-  val mutMiniBoxGen: Gen[MutableMiniBox[Int]] = Gen.single("mutMiniBox")(mutMiniBox)
+  assert(mutMiniBox.getClass.getSimpleName() == "MutableMiniBox_J")
+  
+  val mutGenericBoxGen = Gen.single("Mutable Generic Box")(mutGenericBox)
+  val mutSpecBoxGen = Gen.single("Mutable Specialized Box")(mutSpecBox)
+  val mutMiniBoxGen = Gen.single("Mutable Miniboxed Box")(mutMiniBox)
 
   performance of "ImmutableBox" in {
     measure method "retrieve" in {

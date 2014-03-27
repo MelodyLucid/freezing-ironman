@@ -16,6 +16,8 @@ extends PerformanceTest.Quickbenchmark {
   val spVec3D = new SpecializedVector3D[Double](3.5,4.5,6.0)
   val gnVec3D = new GenericVector3D[Double](3.5,4.5,6.0)
   
+  assert(mbVec3D.getClass.getSimpleName() == "MiniboxedVector3D_J")
+  
   val mbVec3DGen = Gen.single("Miniboxed Vector 3D")(mbVec3D)
   val spVec3DGen = Gen.single("Specialized Vector 3D")(spVec3D)
   val gnVec3DGen = Gen.single("Generic Vector 3D")(gnVec3D)
