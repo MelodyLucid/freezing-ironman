@@ -1,6 +1,7 @@
 package miniboxing.test.scalatests
 
 import org.scalatest.FunSuite
+
 import miniboxing.example.hashmap.MiniboxedHashMap
 
 /**
@@ -21,10 +22,7 @@ class MiniboxedHashMapScalaTest extends FunSuite {
   test("get(key) def") {
     val hashMap = new MiniboxedHashMap[Int, String]
     hashMap.put(3, "3")
-    assert("3".equals(hashMap.get(3) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record correct elements.")
+    assert("3".equals(hashMap.get(3)),"HashMap does not record correct elements.")
   }
   
   test("conflicting get(key) def") {
@@ -33,18 +31,11 @@ class MiniboxedHashMapScalaTest extends FunSuite {
     hashMap.put(3 + 32, "35")
     hashMap.put(3 + 32*2, "67")
     
-    assert("67".equals(hashMap.get(67) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record the previous elements.")
-    assert("35".equals(hashMap.get(35) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record the previous elements.")
-    assert("3".equals(hashMap.get(3) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record the previous elements.")
+    assert("67".equals(hashMap.get(67)),"HashMap does not record the previous elements.")
+    
+    assert("35".equals(hashMap.get(35)),"HashMap does not record the previous elements.")
+    
+    assert("3".equals(hashMap.get(3)),"HashMap does not record the previous elements.")
   }
   
   test("remove(key) head def") {
@@ -53,10 +44,7 @@ class MiniboxedHashMapScalaTest extends FunSuite {
 
     hashMap.remove(3)
 
-    assert("".equals(hashMap.get(3) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not remove elements properly.")
+    assert(hashMap.get(3) == null,"HashMap does not remove elements properly.")
   }
   
   test("remove(key) tail def") {
@@ -67,18 +55,11 @@ class MiniboxedHashMapScalaTest extends FunSuite {
 
     hashMap.remove(67)
 
-    assert("".equals(hashMap.get(67) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap has not removed the element.")
-    assert("35".equals(hashMap.get(35) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record the previous elements.")
-    assert("3".equals(hashMap.get(3) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record the previous elements.")
+    assert(hashMap.get(67) == null,"HashMap has not removed the element.")
+    
+    assert("35".equals(hashMap.get(35)),"HashMap does not record the previous elements.")
+    
+    assert("3".equals(hashMap.get(3)),"HashMap does not record the previous elements.")
   }
   
   test("remove(key) middle def") {
@@ -89,17 +70,10 @@ class MiniboxedHashMapScalaTest extends FunSuite {
 
     hashMap.remove(35)
 
-    assert("67".equals(hashMap.get(67) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record the previous elements.")
-    assert("".equals(hashMap.get(35) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap has not removed the element.")
-    assert("3".equals(hashMap.get(3) match {
-      case Some(str) => str
-      case _ => ""
-    }),"HashMap does not record the previous elements.")
+    assert("67".equals(hashMap.get(67)),"HashMap does not record the previous elements.")
+    
+    assert(hashMap.get(35) == null,"HashMap has not removed the element.")
+    
+    assert("3".equals(hashMap.get(3)),"HashMap does not record the previous elements.")
   }
 }

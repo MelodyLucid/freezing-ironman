@@ -11,7 +11,7 @@ class MiniboxedHashMap[@miniboxed K, @miniboxed V] {
    *  CanBuildFrom pattern
    */
   
-  def put(key: K, value: V): Option[V] = {
+  def put(key: K, value: V): V = {
     if (values(key.hashCode % size) == null) {
       values(key.hashCode % size) = new MiniboxedLinkedList[K, V]
     }
@@ -19,9 +19,9 @@ class MiniboxedHashMap[@miniboxed K, @miniboxed V] {
     values(key.hashCode % size).add(key, value)
   }
   
-  def get(key: K): Option[V] = if (values(key.hashCode % size) != null) values(key.hashCode % size).get(key) else None
+  def get(key: K): V = if (values(key.hashCode % size) != null) values(key.hashCode % size).get(key) else null.asInstanceOf[V]
   
-  def remove(key: K): Option[V] = if (values(key.hashCode % size) != null) values(key.hashCode % size).remove(key) else None 
+  def remove(key: K): V = if (values(key.hashCode % size) != null) values(key.hashCode % size).remove(key) else null.asInstanceOf[V] 
   
   // apply f to each value
   def map[T](f: MiniboxedFunction[V, T]): MiniboxedHashMap[K, T] = ???
@@ -34,7 +34,7 @@ class MiniboxedLinkedList[@miniboxed K, @miniboxed V] {
   var head: MiniboxedNode[Any, Any] = null
   var tail: MiniboxedNode[Any, Any] = null
   
-  def add(key: K, value: V): Option[V] = {
+  def add(key: K, value: V): V = {
     var node = new MiniboxedNode[Any, Any](key, value)
     if (head == null) {
       head = node
@@ -46,32 +46,32 @@ class MiniboxedLinkedList[@miniboxed K, @miniboxed V] {
       tail.next = node
       tail = node
     }
-    Some(value)
+    value
   }
   
-  def get(key: K): Option[V] = {
-    def get0(node: MiniboxedNode[K, V], key: K): Option[V] = {
-      if (node == null) None
-      else if (node.key.equals(key)) Some(node.value)
+  def get(key: K): V = {
+    def get0(node: MiniboxedNode[K, V], key: K): V = {
+      if (node == null) null.asInstanceOf[V]
+      else if (node.key.equals(key)) node.value
       else get0(node.next, key)
     }
     
     get0(head.asInstanceOf[MiniboxedNode[K, V]], key)
   }
   
-  def remove(key: K): Option[V] = {
-    def remove0(previous: MiniboxedNode[K, V], current: MiniboxedNode[K, V], key: K): Option[V] = {
-      if (current == null) None
+  def remove(key: K): V = {
+    def remove0(previous: MiniboxedNode[K, V], current: MiniboxedNode[K, V], key: K): V = {
+      if (current == null) null.asInstanceOf[V]
       else if (current.key.equals(key)) {
         previous.next = current.next
-        Some(current.value)
+        current.value
       } else remove0(current, current.next, key)
     }
     
     if (head.key.equals(key)) {
       val value = (head.value).asInstanceOf[V]
       head = head.next
-      Some(value)
+      value
     } else {
       remove0(head.asInstanceOf[MiniboxedNode[K, V]], head.next.asInstanceOf[MiniboxedNode[K, V]], key)
     }
@@ -86,3 +86,9 @@ class MiniboxedNode[@miniboxed K, @miniboxed V](var key: K, var value: V) {
 abstract class MiniboxedFunction[@miniboxed -T, @miniboxed +S] {
   def apply(t: T): S
 }
+
+// using these make the compiler crashes
+abstract class MiniboxedOption[@miniboxed +T]
+
+case class MiniboxedSome[@miniboxed +T](t: T) extends MiniboxedOption[T]
+case object MiniboxedNone extends MiniboxedOption[Nothing]

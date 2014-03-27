@@ -4,6 +4,7 @@ import org.scalameter.api._
 import miniboxing.example.hashmap.MiniboxedHashMap
 import miniboxing.example.hashmap.SpecializedHashMap
 import miniboxing.example.hashmap.GenericHashMap
+import miniboxing.example.hashmap.MiniboxedSome
 
 object HashMapBenchmark
 extends PerformanceTest.Quickbenchmark {
@@ -29,10 +30,7 @@ extends PerformanceTest.Quickbenchmark {
           var result = 0.
           h.put("8", 1.)
           while (i < size) {
-            result += (h.get("8") match {
-              case Some(d) => d
-              case _ => 0.
-            })
+            result += h.get("8")
             i += 1
           }
           
@@ -45,10 +43,7 @@ extends PerformanceTest.Quickbenchmark {
           var result = 0.
           h.put("8", 1.)
           while (i < size) {
-            result += (h.get("8") match {
-              case Some(d) => d
-              case _ => 0.
-            })
+            result += h.get("8")
             i += 1
           }
           
@@ -61,10 +56,7 @@ extends PerformanceTest.Quickbenchmark {
           var result = 0.
           h.put("8", 1.)
           while (i < size) {
-            result += (h.get("8") match {
-              case Some(d) => d
-              case _ => 0.
-            })
+            result += h.get("8")
             i += 1
           }
           
