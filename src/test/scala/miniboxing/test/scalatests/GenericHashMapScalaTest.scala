@@ -5,19 +5,19 @@
 //
 ///**
 // * Checks the well behavior of the GenericHashMap.
-// * 
+// *
 // */
 //class GenericHashMapScalaTest extends FunSuite {
 //
 //  test("Instanciation") {
 //    val hashMap = new GenericHashMap[Int, String]
 //  }
-//  
+//
 //  test("put(key, value) def") {
 //    val hashMap = new GenericHashMap[Int, String]
 //    hashMap.put(3, "3")
 //  }
-//  
+//
 //  test("get(key) def") {
 //    val hashMap = new GenericHashMap[Int, String]
 //    hashMap.put(3, "3")
@@ -26,13 +26,13 @@
 //      case _ => ""
 //    }),"HashMap does not record correct elements.")
 //  }
-//  
+//
 //  test("conflicting get(key) def") {
 //    val hashMap = new GenericHashMap[Int, String]
 //    hashMap.put(3, "3")
 //    hashMap.put(3 + 32, "35")
 //    hashMap.put(3 + 32*2, "67")
-//    
+//
 //    assert("67".equals(hashMap.get(67) match {
 //      case Some(str) => str
 //      case _ => ""
@@ -46,7 +46,7 @@
 //      case _ => ""
 //    }),"HashMap does not record the previous elements.")
 //  }
-//  
+//
 //  test("remove(key) head def") {
 //    val hashMap = new GenericHashMap[Int, String]
 //    hashMap.put(3, "3")
@@ -58,7 +58,7 @@
 //      case _ => ""
 //    }),"HashMap does not remove elements properly.")
 //  }
-//  
+//
 //  test("remove(key) tail def") {
 //    val hashMap = new GenericHashMap[Int, String]
 //    hashMap.put(3, "3")
@@ -80,7 +80,7 @@
 //      case _ => ""
 //    }),"HashMap does not record the previous elements.")
 //  }
-//  
+//
 //  test("remove(key) middle def") {
 //    val hashMap = new GenericHashMap[Int, String]
 //    hashMap.put(3, "3")

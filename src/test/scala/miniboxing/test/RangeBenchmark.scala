@@ -1,9 +1,9 @@
 package miniboxing.test
 
 import org.scalameter.api._
+import miniboxing.text.infrastructure.FreezingTest
 
-object RangeBenchmark
-extends PerformanceTest.Quickbenchmark {
+object RangeBenchmark extends FreezingTest {
   val sizes: Gen[Int] = Gen.range("size")(300000, 1500000, 300000)
 
   val ranges: Gen[Range] = for {
