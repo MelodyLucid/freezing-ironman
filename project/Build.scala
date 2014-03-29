@@ -5,7 +5,7 @@ object MyBuild extends Build {
 
   /** This is the main project */
   lazy val root: Project = Project(
-    "miniboxing-example",
+    "freezing-ironman",
     file("."),
     settings = Defaults.defaultSettings ++ Seq[Setting[_]](
       organization := "ch.epfl.lamp",
