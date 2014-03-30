@@ -28,7 +28,7 @@ object MyBuild extends Build {
       //"-Xprint:minibox-spec" ::
       //"-P:minibox:hijack" :: // enable hijacking the @specialized annotations
       //                       // transforming them into @miniboxed annotations
-      //"-optimize" ::         // necessary to get the best performance when
+      "-optimize" ::         // necessary to get the best performance when
                              // using the miniboxing plugin
       Nil
     )
