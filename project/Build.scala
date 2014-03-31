@@ -5,7 +5,7 @@ object MyBuild extends Build {
 
   /** This is the main project */
   lazy val root: Project = Project(
-    "miniboxing-example",
+    "freezing-ironman",
     file("."),
     settings = Defaults.defaultSettings ++ Seq[Setting[_]](
       organization := "ch.epfl.lamp",
@@ -23,12 +23,12 @@ object MyBuild extends Build {
     libraryDependencies += "org.scala-miniboxing.plugins" %% "miniboxing-runtime" % "0.2-SNAPSHOT",
     addCompilerPlugin("org.scala-miniboxing.plugins" %% "miniboxing-plugin" % "0.2-SNAPSHOT"),
     scalacOptions ++= (
-      "-P:minibox:log" ::    // enable the miniboxing plugin output
+      //"-P:minibox:log" ::    // enable the miniboxing plugin output
                              // (which explains what the plugin is doing
-      "-Xprint:minibox-spec" ::
+      //"-Xprint:minibox-spec" ::
       //"-P:minibox:hijack" :: // enable hijacking the @specialized annotations
       //                       // transforming them into @miniboxed annotations
-      //"-optimize" ::         // necessary to get the best performance when
+      "-optimize" ::         // necessary to get the best performance when
                              // using the miniboxing plugin
       Nil
     )

@@ -7,9 +7,9 @@ import miniboxing.example.box.SpecializedBox
 import miniboxing.example.box.MutableMiniBox
 import miniboxing.example.box.MutableGenericBox
 import miniboxing.example.box.MutableSpecializedBox
+import miniboxing.text.infrastructure.FreezingTest
 
-object BoxBenchmark
-extends PerformanceTest.Quickbenchmark {
+object BoxBenchmark extends FreezingTest {
 
   var outsider: Double = 0.
   val size: Int = 30000000
@@ -18,9 +18,9 @@ extends PerformanceTest.Quickbenchmark {
   val specBox = new SpecializedBox[Int](1)
   val genericBox = new GenericBox[Int](1)
   val miniBox = new MiniBox[Int](1)
-  
+
   assert(miniBox.getClass.getSimpleName() == "MiniBox_J")
-  
+
   val genericBoxGen = Gen.single("Generic Box")(genericBox)
   val specBoxGen = Gen.single("Specialized Box")(specBox)
   val miniBoxGen = Gen.single("Miniboxed Box")(miniBox)
@@ -29,9 +29,9 @@ extends PerformanceTest.Quickbenchmark {
   val mutSpecBox = new MutableSpecializedBox[Int](1)
   val mutGenericBox = new MutableGenericBox[Int](1)
   val mutMiniBox = new MutableMiniBox[Int](1)
-  
+
   assert(mutMiniBox.getClass.getSimpleName() == "MutableMiniBox_J")
-  
+
   val mutGenericBoxGen = Gen.single("Mutable Generic Box")(mutGenericBox)
   val mutSpecBoxGen = Gen.single("Mutable Specialized Box")(mutSpecBox)
   val mutMiniBoxGen = Gen.single("Mutable Miniboxed Box")(mutMiniBox)
@@ -39,25 +39,25 @@ extends PerformanceTest.Quickbenchmark {
   performance of "ImmutableBox" in {
     measure method "retrieve" in {
       using(genericBoxGen) in {
-        b => 
+        b =>
           var i = 0
           var result = 0
           while (i < size) {
             result += b.retrieve
             i += 1
           }
-          
+
           outsider = result  // avoid in-lining
       }
       using(specBoxGen) in {
-        b => 
+        b =>
           var i = 0
           var result = 0
           while (i < size) {
             result += b.retrieve
             i += 1
           }
-          
+
           outsider = result  // avoid in-lining
       }
       using(miniBoxGen) in {
@@ -68,45 +68,45 @@ extends PerformanceTest.Quickbenchmark {
             result += b.retrieve
             i += 1
           }
-          
+
           outsider = result  // avoid in-lining
       }
     }
   }
-  
+
   performance of "MutableBox" in {
     measure method "add" in {
       using(mutGenericBoxGen) in {
-        b => 
+        b =>
           var i = 0
           var result = 0
           while (i < size) {
             result += b.add(1)
             i += 1
           }
-          
+
           outsider = result	// avoid in-lining
       }
       using(mutSpecBoxGen) in {
-        b => 
+        b =>
           var i = 0
           var result = 0
           while (i < size) {
             result += b.add(1)
             i += 1
           }
-          
+
           outsider = result	// avoid in-lining
       }
       using(mutMiniBoxGen) in {
-        b => 
+        b =>
           var i = 0
           var result = 0
           while (i < size) {
             result += b.add(1)
             i += 1
           }
-          
+
           outsider = result	// avoid in-lining
       }
     }
