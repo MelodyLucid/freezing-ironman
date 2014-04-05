@@ -1,9 +1,11 @@
 package miniboxing.example.hashmap
 
-class MiniboxedHashMap[@miniboxed K, @miniboxed V] {
+class MiniboxedHashMap[@miniboxed K, @miniboxed V](implicit keyManifest: Manifest[K], valueManifest: Manifest[V]) {
 
-  val size = 32
-  private var values = new Array[MiniboxedLinkedList[K, V]](size)
+  val size = 128
+  private var values = new Array[V](size)
+  private var keys = new Array[K](size)
+  private var count = new Array[Int](size)
   
   /*
    *  Challenge issue63
@@ -12,16 +14,90 @@ class MiniboxedHashMap[@miniboxed K, @miniboxed V] {
    */
   
   def put(key: K, value: V): V = {
-    if (values(key.hashCode % size) == null) {
-      values(key.hashCode % size) = new MiniboxedLinkedList[K, V]
+    val keyHashCode = key.hashCode % size
+    
+    def recursivePut(index: Int): V = {
+      if (index == keyHashCode - 1) {
+        throw new Error("HashMap is full.")
+      }
+      if (count(index) == 0) {
+        keys(index) = key
+        values(index) = value
+        count(index) = 1
+        value
+      } else {
+        count(index) += 1
+        recursivePut((index + 1) % size)
+      }
     }
     
-    values(key.hashCode % size).add(key, value)
+    recursivePut(keyHashCode)
   }
   
-  def get(key: K): V = if (values(key.hashCode % size) != null) values(key.hashCode % size).get(key) else null.asInstanceOf[V]
+  def get(key: K): V = {
+    val keyHashCode = key.hashCode % size
+    
+    def recursiveGet(index: Int): V = {
+      if (index == keyHashCode - 1) {
+        null.asInstanceOf[V]
+      } else if (keys(index) == key) {
+        values(index)
+      } else {
+        recursiveGet((index + 1) % size)
+      }
+    }
+    
+    if (contains(key)) {
+      recursiveGet(keyHashCode)
+    } else {
+      null.asInstanceOf[V]
+    }
+  }
   
-  def remove(key: K): V = if (values(key.hashCode % size) != null) values(key.hashCode % size).remove(key) else null.asInstanceOf[V] 
+  def contains(key: K): Boolean = {
+    val keyHashCode = key.hashCode % size
+    
+    def recursiveContains(index: Int): Boolean = {
+      if (index == keyHashCode - 1) {
+        false
+      } else if (count(key.hashCode % size) == 0) {
+        false
+      } else if (keys(index) == key) {
+        true
+      } else recursiveContains((index + 1) % size)
+    }
+    
+    recursiveContains(keyHashCode)
+  }
+  
+  def remove(key: K): V = {
+    val keyHashCode = key.hashCode % size
+    
+    def recursiveRemove(index: Int): (Boolean, V) = {
+      if (index == keyHashCode - 1) {
+        (false, null.asInstanceOf[V])
+      } else if (keys(index) == key) {
+        val value = values(index)
+        count(index) -= 1
+        values(index) = null.asInstanceOf[V] // unnecessary, avoid garbage
+        keys(index) = null.asInstanceOf[K] // unnecessary, avoid garbage
+        (true, value)
+      } else {
+        val (isRemoved, value) = recursiveRemove((index + 1) % size)
+        if (isRemoved) { 
+          count(index) -= 1
+        }
+        (isRemoved, value)
+      }
+    }
+    
+    if (contains(key)) {
+      val (isRemoved, value) = recursiveRemove(keyHashCode)
+      value
+    } else {
+      null.asInstanceOf[V]
+    }
+  }
   
   // apply f to each value
   def map[T](f: MiniboxedFunction[V, T]): MiniboxedHashMap[K, T] = ???
@@ -29,59 +105,7 @@ class MiniboxedHashMap[@miniboxed K, @miniboxed V] {
   def fold[T](f: MiniboxedFunction[V, T]): T = ???
 }
 
-class MiniboxedLinkedList[@miniboxed K, @miniboxed V] {
-
-  var head: MiniboxedNode[Any, Any] = null
-  var tail: MiniboxedNode[Any, Any] = null
-  
-  def add(key: K, value: V): V = {
-    var node = new MiniboxedNode[Any, Any](key, value)
-    if (head == null) {
-      head = node
-      tail = node
-    } else if (head == tail) {
-      head.next = node
-      tail = node
-    } else {
-      tail.next = node
-      tail = node
-    }
-    value
-  }
-  
-  def get(key: K): V = {
-    def get0(node: MiniboxedNode[K, V], key: K): V = {
-      if (node == null) null.asInstanceOf[V]
-      else if (node.key.equals(key)) node.value
-      else get0(node.next, key)
-    }
-    
-    get0(head.asInstanceOf[MiniboxedNode[K, V]], key)
-  }
-  
-  def remove(key: K): V = {
-    def remove0(previous: MiniboxedNode[K, V], current: MiniboxedNode[K, V], key: K): V = {
-      if (current == null) null.asInstanceOf[V]
-      else if (current.key.equals(key)) {
-        previous.next = current.next
-        current.value
-      } else remove0(current, current.next, key)
-    }
-    
-    if (head.key.equals(key)) {
-      val value = (head.value).asInstanceOf[V]
-      head = head.next
-      value
-    } else {
-      remove0(head.asInstanceOf[MiniboxedNode[K, V]], head.next.asInstanceOf[MiniboxedNode[K, V]], key)
-    }
-  }
-}
-
-class MiniboxedNode[@miniboxed K, @miniboxed V](var key: K, var value: V) {
-
-  var next: MiniboxedNode[K, V] = null
-}
+// still unused
 
 abstract class MiniboxedFunction[@miniboxed -T, @miniboxed +S] {
   def apply(t: T): S

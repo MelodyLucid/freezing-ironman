@@ -9,7 +9,7 @@ import miniboxing.example.hashmap.MiniboxedSome
 object HashMapBenchmark
 extends PerformanceTest.Quickbenchmark {
   var outsider = 0.
-  val size = 30000
+  val size = 300000
 
   // HashMaps [Int, Int]
   val mbHashMap_II = new MiniboxedHashMap[Int, Int]
@@ -102,43 +102,43 @@ extends PerformanceTest.Quickbenchmark {
       }
     }
     
-    measure method "put" in {
-      using(gnHashMapGen_II) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put(8, 1)
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(spHashMapGen_II) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put(8, 1)
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(mbHashMapGen_II) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put(8, 1)
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-    }
+//    measure method "put" in {
+//      using(gnHashMapGen_II) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put(8, 1)
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(spHashMapGen_II) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put(8, 1)
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(mbHashMapGen_II) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put(8, 1)
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//    }
   }
   
   performance of "HashMap [Int, String]" in {
@@ -183,43 +183,43 @@ extends PerformanceTest.Quickbenchmark {
       }
     }
     
-    measure method "put" in {
-      using(gnHashMapGen_IS) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put(8, "1").toDouble
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(spHashMapGen_IS) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put(8, "1").toDouble
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(mbHashMapGen_IS) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put(8, "1").toDouble
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-    }
+//    measure method "put" in {
+//      using(gnHashMapGen_IS) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put(8, "1").toDouble
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(spHashMapGen_IS) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put(8, "1").toDouble
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(mbHashMapGen_IS) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put(8, "1").toDouble
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//    }
   }
   
   performance of "HashMap [String, Int]" in {
@@ -264,43 +264,43 @@ extends PerformanceTest.Quickbenchmark {
       }
     }
     
-    measure method "put" in {
-      using(gnHashMapGen_SI) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put("8", 1)
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(spHashMapGen_SI) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put("8", 1)
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(mbHashMapGen_SI) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put("8", 1)
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-    }
+//    measure method "put" in {
+//      using(gnHashMapGen_SI) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put("8", 1)
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(spHashMapGen_SI) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put("8", 1)
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(mbHashMapGen_SI) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put("8", 1)
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//    }
   }
   
   performance of "HashMap [String, String]" in {
@@ -345,42 +345,42 @@ extends PerformanceTest.Quickbenchmark {
       }
     }
     
-    measure method "put" in {
-      using(gnHashMapGen_SS) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put("8", "1").toDouble
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(spHashMapGen_SS) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put("8", "1").toDouble
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-      
-      using(mbHashMapGen_SS) in {
-        h =>
-          var i = 0
-          var result = 0.
-          while (i < size) {
-            result += h.put("8", "1").toDouble
-            i += 1
-          }
-          
-          outsider = result  // avoid in-lining
-      }
-    }
+//    measure method "put" in {
+//      using(gnHashMapGen_SS) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put("8", "1").toDouble
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(spHashMapGen_SS) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put("8", "1").toDouble
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//      
+//      using(mbHashMapGen_SS) in {
+//        h =>
+//          var i = 0
+//          var result = 0.
+//          while (i < size) {
+//            result += h.put("8", "1").toDouble
+//            i += 1
+//          }
+//          
+//          outsider = result  // avoid in-lining
+//      }
+//    }
   }
 }
