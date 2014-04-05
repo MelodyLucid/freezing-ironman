@@ -1,11 +1,11 @@
 package miniboxing.example.linkedlist
 
-class MiniboxedLinkedList[@miniboxed T](implicit m: Manifest[T]) {
+class GenericLinkedList[T](implicit m: Manifest[T]) {
 
-  private var head, tail: MiniboxedNode[T] = null
+  private var head, tail: GenericNode[T] = null
 
   def add(t: T) {
-    val node = new MiniboxedNode(t, null)
+    val node = new GenericNode(t, null)
     if (tail == null) {
       head = node
     } else {
@@ -18,7 +18,7 @@ class MiniboxedLinkedList[@miniboxed T](implicit m: Manifest[T]) {
     if (i < 0) {
       throw new NoSuchElementException
     }
-    val node = new MiniboxedNode(t, null)
+    val node = new GenericNode(t, null)
     if (i == 0) {
       if (tail == null) tail = node
       node.next = head
@@ -116,4 +116,4 @@ class MiniboxedLinkedList[@miniboxed T](implicit m: Manifest[T]) {
 
 }
 
-class MiniboxedNode[@miniboxed T](var elem: T, var next: MiniboxedNode[T])
+class GenericNode[T](var elem: T, var next: GenericNode[T])
