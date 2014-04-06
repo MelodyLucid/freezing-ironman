@@ -25,6 +25,17 @@ class MiniboxedHashMapScalaTest extends FunSuite {
     assert("3".equals(hashMap.get(3)),"HashMap does not record correct elements.")
   }
   
+  test("contains(key) def") {
+    val hashMap = new MiniboxedHashMap[Int, String]
+    hashMap.put(3        , "3")
+    hashMap.put(3 + 128  , "131")
+    hashMap.put(3 + 128*2, "259")
+    assert(hashMap.contains(3),"HashMap does not record correct elements.")
+    assert(hashMap.contains(131),"HashMap does not record correct elements.")
+    assert(hashMap.contains(259),"HashMap does not record correct elements.")
+    assert(!hashMap.contains(6))
+  }
+  
   test("conflicting get(key) def") {
     val hashMap = new MiniboxedHashMap[Int, String]
     hashMap.put(3        , "3")
