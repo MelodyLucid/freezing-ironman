@@ -9,6 +9,15 @@ import org.scalameter.execution.LocalExecutor
 
 trait FreezingTest extends PerformanceTest {
 
+
+   // HTML reporter that doesn't work right now (maybe it only generates graphs for one file?)
+//  @transient lazy val reporter = Reporter.Composite(
+//      new RegressionReporter(
+//          RegressionReporter.Tester.OverlapIntervals(),
+//          RegressionReporter.Historian.ExponentialBackoff() ),
+//      HtmlReporter(true)
+//  )
+  
   // Finally a less verbose reporter!
   @transient lazy val reporter = new LoggingReporter {
     println(FreezingTest.this.getClass.getName() + ":")
