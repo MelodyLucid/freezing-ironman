@@ -11,7 +11,7 @@ import miniboxing.text.infrastructure.FreezingTest
 
 object BoxBenchmark extends FreezingTest {
 
-  var outsider: Double = 0.
+  var outsider: Double = 0.0
   val size: Int = 30000000
 
   // Immutable boxes

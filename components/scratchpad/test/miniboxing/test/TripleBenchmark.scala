@@ -9,7 +9,7 @@ import miniboxing.text.infrastructure.FreezingTest
 
 object TripleBenchmark extends FreezingTest {
 
-  var outsider: Double = 0.
+  var outsider: Double = 0.0
   val size: Int = 300000
 
   // Triples
@@ -28,7 +28,7 @@ object TripleBenchmark extends FreezingTest {
       using(gnTripleGen) in {
         t =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           while (i < size) {
             result += t.getS
             result += t.getT
@@ -42,7 +42,7 @@ object TripleBenchmark extends FreezingTest {
       using(spTripleGen) in {
         t =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           while (i < size) {
             result += t.getS
             result += t.getT
@@ -56,7 +56,7 @@ object TripleBenchmark extends FreezingTest {
       using(mbTripleGen) in {
         t =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           while (i < size) {
             result += t.getS
             result += t.getT

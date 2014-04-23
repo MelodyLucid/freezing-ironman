@@ -8,7 +8,7 @@ import miniboxing.example.hashmap.MiniboxedSome
 import miniboxing.text.infrastructure.FreezingTest
 
 object HashMapBenchmark extends FreezingTest {
-  var outsider = 0.
+  var outsider = 0.00
   val size = 300000
 
   // HashMaps [Int, Int]
@@ -65,7 +65,7 @@ object HashMapBenchmark extends FreezingTest {
       using(gnHashMapGen_II) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put(8, 1)
           while (i < size) {
             result += h.get(8)
@@ -78,7 +78,7 @@ object HashMapBenchmark extends FreezingTest {
       using(spHashMapGen_II) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put(8, 1)
           while (i < size) {
             result += h.get(8)
@@ -91,7 +91,7 @@ object HashMapBenchmark extends FreezingTest {
       using(mbHashMapGen_II) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put(8, 1)
           while (i < size) {
             result += h.get(8)
@@ -106,7 +106,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(gnHashMapGen_II) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put(8, 1)
 //            i += 1
@@ -118,7 +118,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(spHashMapGen_II) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put(8, 1)
 //            i += 1
@@ -130,7 +130,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(mbHashMapGen_II) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put(8, 1)
 //            i += 1
@@ -146,7 +146,7 @@ object HashMapBenchmark extends FreezingTest {
       using(gnHashMapGen_IS) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put(8, "1")
           while (i < size) {
             result += h.get(8).toDouble
@@ -159,7 +159,7 @@ object HashMapBenchmark extends FreezingTest {
       using(spHashMapGen_IS) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put(8, "1")
           while (i < size) {
             result += h.get(8).toDouble
@@ -172,7 +172,7 @@ object HashMapBenchmark extends FreezingTest {
       using(mbHashMapGen_IS) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put(8, "1")
           while (i < size) {
             result += h.get(8).toDouble
@@ -187,7 +187,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(gnHashMapGen_IS) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put(8, "1").toDouble
 //            i += 1
@@ -199,7 +199,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(spHashMapGen_IS) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put(8, "1").toDouble
 //            i += 1
@@ -211,7 +211,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(mbHashMapGen_IS) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put(8, "1").toDouble
 //            i += 1
@@ -227,7 +227,7 @@ object HashMapBenchmark extends FreezingTest {
       using(gnHashMapGen_SI) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put("8", 1)
           while (i < size) {
             result += h.get("8")
@@ -240,7 +240,7 @@ object HashMapBenchmark extends FreezingTest {
       using(spHashMapGen_SI) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put("8", 1)
           while (i < size) {
             result += h.get("8")
@@ -253,7 +253,7 @@ object HashMapBenchmark extends FreezingTest {
       using(mbHashMapGen_SI) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put("8", 1)
           while (i < size) {
             result += h.get("8")
@@ -268,7 +268,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(gnHashMapGen_SI) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put("8", 1)
 //            i += 1
@@ -280,7 +280,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(spHashMapGen_SI) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put("8", 1)
 //            i += 1
@@ -292,7 +292,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(mbHashMapGen_SI) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put("8", 1)
 //            i += 1
@@ -308,7 +308,7 @@ object HashMapBenchmark extends FreezingTest {
       using(gnHashMapGen_SS) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put("8", "1")
           while (i < size) {
             result += h.get("8").toDouble
@@ -321,7 +321,7 @@ object HashMapBenchmark extends FreezingTest {
       using(spHashMapGen_SS) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put("8", "1")
           while (i < size) {
             result += h.get("8").toDouble
@@ -334,7 +334,7 @@ object HashMapBenchmark extends FreezingTest {
       using(mbHashMapGen_SS) in {
         h =>
           var i = 0
-          var result = 0.
+          var result = 0.0
           h.put("8", "1")
           while (i < size) {
             result += h.get("8").toDouble
@@ -349,7 +349,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(gnHashMapGen_SS) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put("8", "1").toDouble
 //            i += 1
@@ -361,7 +361,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(spHashMapGen_SS) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put("8", "1").toDouble
 //            i += 1
@@ -373,7 +373,7 @@ object HashMapBenchmark extends FreezingTest {
 //      using(mbHashMapGen_SS) in {
 //        h =>
 //          var i = 0
-//          var result = 0.
+//          var result = 0.0
 //          while (i < size) {
 //            result += h.put("8", "1").toDouble
 //            i += 1

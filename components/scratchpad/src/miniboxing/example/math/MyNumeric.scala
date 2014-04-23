@@ -73,8 +73,8 @@ package object `math` {
     def plus(x: Double, y: Double): Double = x + y
     def mult(x: Double, y: Double): Double = x * y
     def equals(x: Double, y: Double): Boolean = x == y
-    def zero: Double = 0.0d
-    def one: Double = 1.0d
+    def zero: Double = 0.00d
+    def one: Double = 1.00d
 
     def toDouble(x: Double): Double = x
   }
@@ -84,8 +84,8 @@ package object `math` {
     def plus(x: Float, y: Float): Float = x + y
     def mult(x: Float, y: Float): Float = x * y
     def equals(x: Float, y: Float): Boolean = x == y
-    def zero: Float = 0.0f
-    def one: Float = 1.0f
+    def zero: Float = 0.00f
+    def one: Float = 1.00f
 
     def toDouble(x: Float): Double = x
   }
@@ -98,7 +98,7 @@ package object `math` {
     def zero: Boolean = false
     def one: Boolean = true
 
-    def toDouble(x: Boolean): Double = if (x) 1. else 0.
+    def toDouble(x: Boolean): Double = if (x) 1.0 else 0.0
   }
 
   implicit object MyNumericChar extends MyNumeric[Char] {

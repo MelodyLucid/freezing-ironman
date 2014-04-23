@@ -8,7 +8,7 @@ import miniboxing.text.infrastructure.FreezingTest
 
 object Vector3DBenchmark extends FreezingTest {
 
-  var outsider = 0.
+  var outsider = 0.0
   val size = 3000000
 
   // Vectors
@@ -28,7 +28,7 @@ object Vector3DBenchmark extends FreezingTest {
         u =>
           val v = new GenericVector3D[Double](-2.5,-4.5,-6.0)
           var i = 0
-          var result = 0.
+          var result = 0.0
           while (i < size) {
             result += (u + v).dist
             i += 1
@@ -41,7 +41,7 @@ object Vector3DBenchmark extends FreezingTest {
         u =>
           val v = new SpecializedVector3D[Double](-2.5,-4.5,-6.0)
           var i = 0
-          var result = 0.
+          var result = 0.0
           while (i < size) {
             result += (u + v).dist
             i += 1
@@ -54,7 +54,7 @@ object Vector3DBenchmark extends FreezingTest {
         u =>
           val v = new MiniboxedVector3D[Double](-2.5,-4.5,-6.0)
           var i = 0
-          var result = 0.
+          var result = 0.0
           while (i < size) {
             result += (u + v).dist
             i += 1

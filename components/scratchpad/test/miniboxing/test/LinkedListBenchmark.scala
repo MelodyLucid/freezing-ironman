@@ -7,7 +7,7 @@ import miniboxing.example.linkedlist.SpecializedLinkedList
 import miniboxing.example.linkedlist.GenericLinkedList
 
 object LinkedListBenchmark extends FreezingTest {
-  var outsider = 0.
+  var outsider = 0.0
   val size = 3000000
 
   val mbLinkedList = new MiniboxedLinkedList[Int]
@@ -27,7 +27,7 @@ object LinkedListBenchmark extends FreezingTest {
       using(gnLinkedListGen) in {
         v => 
           var i = 0
-          var result = 0.
+          var result = 0.0
           v.add(1)
           v.add(2)
           v.add(3)
@@ -41,7 +41,7 @@ object LinkedListBenchmark extends FreezingTest {
       using(spLinkedListGen) in {
         v => 
           var i = 0
-          var result = 0.
+          var result = 0.0
           v.add(1)
           v.add(2)
           v.add(3)
@@ -55,7 +55,7 @@ object LinkedListBenchmark extends FreezingTest {
       using(mbLinkedListGen) in {
         v => 
           var i = 0
-          var result = 0.
+          var result = 0.0
           v.add(1)
           v.add(2)
           v.add(3)
