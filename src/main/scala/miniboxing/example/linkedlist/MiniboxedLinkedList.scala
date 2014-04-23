@@ -1,119 +1,129 @@
 package miniboxing.example.linkedlist
 
-class MiniboxedLinkedList[@miniboxed T](implicit m: Manifest[T]) {
+class MiniboxedLinkedList[@miniboxed T](implicit manifest: Manifest[T]) {
 
-  private var head, tail: MiniboxedNode[T] = null
+  private var amount: Int = 0
+  private val first: MiniboxedNode[T] = new MiniboxedNode[T](null.asInstanceOf[T], null)
+  private var last: MiniboxedNode[T] = first
 
-  def add(t: T) {
-    val node = new MiniboxedNode(t, null)
-    if (tail == null) {
-      head = node
-    } else {
-      tail.next = node
+  def add(t: T): Unit = addAfter(t, last)
+  
+  def addAt(t: T, i: Int): Unit = addAfter(t, getNode(i))
+  
+  def get(i: Int): T = getNode(i).next.elem
+  
+  def size: Int = amount
+  
+  def remove(t: T): Unit = {
+    var node = first
+    while (node != null && node.elem != t) {
+      node = node.next
     }
-    tail = node
-  }
-
-  def add(t: T, i: Int) {
-    if (i < 0) {
+    if (node == null) {
       throw new NoSuchElementException
     }
-    val node = new MiniboxedNode(t, null)
-    if (i == 0) {
-      if (tail == null) tail = node
-      node.next = head
-      head = node
-    } else {
-      var c = i
-      var m = head
-      while (c > 1 && m != null) {
-        c -= 1
-        m = m.next
-      }
-      if (m == null) {
-        throw new NoSuchElementException
-      }
-      if (m == tail) {
-        tail = node
-      }
-      node.next = m.next
-      m.next = node
+    if (node.next eq last) {
+      last = node
     }
+    node.next = node.next.next
+    amount -= 1
   }
-
-  def get(i: Int): T = {
-    if (i < 0) {
-      throw new NoSuchElementException
+  
+  def removeAt(i: Int): Unit = {
+    val node = getNode(i)
+    if (node.next eq last) {
+      last = node
     }
-    var c = i
-    var n = head
-    while (c > 0 && n != null) {
-      c -= 1
-      n = n.next
-    }
-    if (n == null) {
-      throw new NoSuchElementException
-    }
-    n.elem
+    node.next = node.next.next
+    amount -= 1
   }
-
-  def remove(i: Int) {
-    if (head == null || i < 0) {
-      throw new NoSuchElementException
-    }
-    if (i == 0) {
-      if (tail == head) {
-        tail == null
-      }
-      head = head.next
-    } else {
-      var c = i
-      var n = head
-      while (c > 1 && n.next != null) {
-        c -= 1
-        n = n.next
-      }
-      if (n == null || n.next == null) {
-        throw new NoSuchElementException
-      }
-      if (tail == n.next) tail = n
-      n.next = n.next.next
-    }
-  }
-
-  def size: Int = {
-    if (head == null) {
-      0
-    } else {
-      var c = 1
-      var n = head
-      while (n != tail) {
-        c += 1
-        n = n.next
-      }
-      c
-    }
-  }
+  
+//  TODO solve issue + use MiniboxedFunction
+//  def map[U](f: T => U)(implicit mu: Manifest[U]) = {
+//    val linkedList = new MiniboxedLinkedList[U]
+//    var nodeInit = first
+//    var nodeNew = linkedList.first
+//    while (nodeInit.next != null) {
+//      nodeInit = nodeInit.next
+//      nodeNew.next = new MiniboxedNode[U](f(nodeInit.elem), null)
+//      nodeNew = nodeNew.next
+//    }
+//    linkedList.last = nodeNew
+//    linkedList
+//  }
+//  
+//  def filter(f: T => Boolean) = {
+//    val linkedList = new MiniboxedLinkedList[T]
+//    var nodeInit = first
+//    var nodeNew = linkedList.first
+//    while (nodeInit.next != null) {
+//      nodeInit = nodeInit.next
+//      if (f(nodeInit.elem)) {
+//        nodeNew.next = new MiniboxedNode[T](nodeInit.elem, null)
+//        nodeNew = nodeNew.next
+//      }
+//    }
+//    linkedList.last = nodeNew
+//    linkedList
+//  }
+//  
+//  def fold[U](f: (U, T) => U, z: U) = {
+//    var folded = z
+//    var node = first
+//    while (node.next != null) {
+//      node = node.next
+//      folded = f(folded, node.elem)
+//    }
+//    folded
+//  }
 
   def clear() {
-    head = null
-    tail = null
+    first.next = null
+    last = first
   }
 
   def toArray: Array[T] = {
-    val a = new Array[T](size)
+    val array = new Array[T](amount)
+    var node = first
     var i = 0
-    var n = head
-    while (i < a.length) {
-      a(i) = n.elem
+    while (i < amount) {
+      node = node.next
+      array(i) = node.elem
       i += 1
-      n = n.next
     }
-    a
+    array
   }
-
-  override def toString: String = toArray.mkString(" ")
+  
+  override def toString: String = "(" + toArray.mkString(" ") + ")"
+  
+  // TODO private is illegal
+  def getNode(i: Int): MiniboxedNode[T] = {
+    if (i < 0) {
+      throw new NoSuchElementException
+    }
+    var node = first
+    var count = i
+    while (count > 0 && node.next != null) {
+      count -= 1
+      node = node.next
+    }
+    if (node.next == null) {
+      throw new NoSuchElementException
+    }
+    node
+  }
+  
+  // TODO private is illegal
+  def addAfter(t: T, n: MiniboxedNode[T]): Unit = {
+    val node = new MiniboxedNode[T](t, n.next)
+    if (last eq n) {
+      last = node
+    }
+    node.next = n.next
+    n.next = node
+    amount += 1
+  }
 
 }
 
-class MiniboxedNode[@miniboxed T](var elem: T, var next: MiniboxedNode[T])
+class MiniboxedNode[T](var elem: T, var next: MiniboxedNode[T])
