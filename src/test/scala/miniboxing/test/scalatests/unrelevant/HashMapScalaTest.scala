@@ -1,4 +1,4 @@
-package miniboxing.test.scalatests
+package miniboxing.test.scalatests.unrelevant
 
 import org.scalatest.FunSuite
 
