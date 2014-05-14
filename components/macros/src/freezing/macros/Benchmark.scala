@@ -6,13 +6,8 @@ import scala.language.experimental.macros // crappy sip 18!!!
 
 object Benchmark {
 
-  object BenchType extends Enumeration {
-    type BenchType = Value
-    val Generic, Miniboxed, Specialized = Value
-  }
-
   import BenchType._
-
+  
   def benchmark(tpe: BenchType): Unit = macro benchmark_impl
 
   def benchmark_impl(c: Context)(tpe: c.Expr[BenchType]): c.Expr[Unit] = {
