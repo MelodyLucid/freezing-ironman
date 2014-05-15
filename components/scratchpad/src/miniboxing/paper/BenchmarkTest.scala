@@ -8,7 +8,7 @@ object BenchmarkTest extends App {
   val yy = List(3,10,3,6,8,12,1,4,9,14)
   val points = xx zip yy
   
-  val size = xx.size.toDouble
+  val size = xx.size
   
   val sumx = xx.sum
   val sumy = yy.sum
@@ -24,7 +24,7 @@ object BenchmarkTest extends App {
   
   println("sumxy = " + sumxy)
   
-  val m: Double = (size*sumxy - sumx*sumy) / (size*squarex - sumx*sumx)
+  val m = (size*sumxy - sumx*sumy) / (size*squarex - sumx*sumx)
   
   val b = (sumy*squarex - sumx*sumxy)/(size*squarex - sumx*sumx)
   
@@ -39,16 +39,16 @@ object BenchiTest extends App {
     def zero: Double = 0.0
   }
   
-  val xx = 17.0 :: 1.0 :: 2.0 :: 3.0 :: 4.0 :: new Cons(5.0, Nil)
+  val xx = 17.0 :: 1.0 :: 2.0 :: 3.0 :: 4.0 :: 5.0 :: Nil
   
   println(xx.sum)
   
-  val yy = 1 :: 2 :: new Cons(3, Nil)
-  val zz = "Hello" :: "World" :: new Cons("!", Nil)
+  val yy = 1 :: 2 :: 3 :: Nil
+  val zz = "Hello" :: "World" :: "!" :: Nil
   
   val zip = yy.zip(zz)(new ListBuilder)
   
-  val ww = 1 :: 2 :: new Cons(3, Nil)
+  val ww = 1 :: 2 :: 3 :: Nil
   
   val map = ww.map(new Function1[Int, Double] { def apply(t: Int): Double = t + 1.0 })(new ListBuilder)
   

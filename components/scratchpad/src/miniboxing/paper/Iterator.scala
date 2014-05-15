@@ -1,7 +1,6 @@
 package miniboxing.paper
 
-trait Iterator[T] {
-
-  def next(): T
+trait Iterator[+T] {
   def hasNext(): Boolean
+  def next(): T
 }
