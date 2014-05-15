@@ -1,9 +1,9 @@
 package miniboxing.paper
 
-trait Iterable[+T] extends Traversable[T] {
+trait Iterable[@miniboxed +T] extends Traversable[T] {
   def iterator: Iterator[T]
   
-  def zipTo[U, To](that: Iterable[U])(b: Builder[Tuple2[T, U], To]): To = {
+  def zipTo[@miniboxed U, To](that: Iterable[U])(b: Builder[Tuple2[T, U], To]): To = {
     val buff = b
     val these = this.iterator
     val those = that.iterator
@@ -15,6 +15,5 @@ trait Iterable[+T] extends Traversable[T] {
     buff.finalise
   }
   
-  def zip[U, To](that: Iterable[U])(b: Builder[Tuple2[T, U], To]): To = zipTo[U, To](that)(b)
+  def zip[@miniboxed U](that: Iterable[U]): List[Tuple2[T, U]] = zipTo[U, List[Tuple2[T, U]]](that)(new ListBuilder[Tuple2[T, U]])
 }
-

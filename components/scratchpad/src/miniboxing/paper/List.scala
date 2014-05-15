@@ -1,6 +1,6 @@
 package miniboxing.paper
 
-abstract class List[+T] extends Iterable[T] {
+abstract class List[@miniboxed +T] extends Iterable[T] {
 
   def iterator = new Iterator[T] {
     var current = List.this
@@ -11,7 +11,7 @@ abstract class List[+T] extends Iterable[T] {
       t
     }
   }
-  def foreach[U](f: Function1[T, U]) {
+  def foreach[@miniboxed U](f: Function1[T, U]) {
     val it = iterator
     while (it.hasNext) f(it.next())
   }
@@ -20,7 +20,7 @@ abstract class List[+T] extends Iterable[T] {
   def tail: List[T]
   def size: Int
   
-  def ::[S >: T](e1: S) : List[S] = new ::[S](e1, this)
+  def ::[@miniboxed S >: T](e1: S) : List[S] = new ::[S](e1, this)
   
   def reverse: List[T] = {
     val it = iterator

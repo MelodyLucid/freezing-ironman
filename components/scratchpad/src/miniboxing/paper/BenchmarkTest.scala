@@ -44,11 +44,11 @@ object BenchiTest extends App {
   val yy = 1 :: 2 :: 3 :: Nil
   val zz = "Hello" :: "World" :: "!" :: Nil
   
-  val zip = yy.zip(zz)(new ListBuilder)
+  val zip = yy.zip(zz)
   
   val ww = 1 :: 2 :: 3 :: Nil
   
-  val map = ww.map(new Function1[Int, Double] { def apply(t: Int): Double = t + 1.0 })(new ListBuilder)
+  val map = ww.map(new Function1[Int, Double] { def apply(t: Int): Double = t + 1.0 })
   
   println(xx + " summed = " + xx.sum)
   println(yy + " zip " + zz + " = " + zip)

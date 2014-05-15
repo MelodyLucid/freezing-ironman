@@ -1,7 +1,7 @@
 package miniboxing
 
 package paper {
-  trait Numeric[T] {
+  trait Numeric[@miniboxed T] {
   
     def plus(x: T, y: T): T
     

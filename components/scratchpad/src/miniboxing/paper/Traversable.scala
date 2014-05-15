@@ -1,8 +1,8 @@
 package miniboxing.paper
 
-trait Traversable[+T] {
+trait Traversable[@miniboxed +T] {
   
-  def mapTo[U, To](f: Function1[T, U])(b: Builder[U, To]): To = {
+  def mapTo[@miniboxed U, To](f: Function1[T, U])(b: Builder[U, To]): To = {
     val buff = b
     
     foreach(new Function1[T,Unit] { def apply(t: T): Unit = buff += f(t) })
@@ -10,7 +10,7 @@ trait Traversable[+T] {
     buff.finalise
   }
   
-  def map[U, To](f: Function1[T, U])(b: Builder[U, To]): To = mapTo[U, To](f)(b)
+  def map[@miniboxed U](f: Function1[T, U]): List[U] = mapTo[U, List[U]](f)(new ListBuilder)
   
   def sum[B >: T](implicit n : Numeric[B]): B = {
     var buff = n.zero
@@ -20,5 +20,5 @@ trait Traversable[+T] {
     buff
   }
   
-  def foreach[U](f: Function1[T, U]): Unit
+  def foreach[@miniboxed U](f: Function1[T, U]): Unit
 }
