@@ -78,6 +78,6 @@ object FreezingIronmanBuild extends Build {
 
   lazy val _freezing   = Project(id = "freezing",            base = file(".")) aggregate (macros, benchmarks, scratchpad)
   lazy val macros      = Project(id = "freezing-macros",     base = file("components/macros"), settings = defaults)
-  lazy val benchmarks  = Project(id = "freezing-benchmarks", base = file("components/benchmarks"), settings = defaults) dependsOn (macros)
+  lazy val benchmarks  = Project(id = "freezing-benchmarks", base = file("components/benchmarks"), settings = defaults) dependsOn (macros,scratchpad)
   lazy val scratchpad  = Project(id = "freezing-scratchpad", base = file("components/scratchpad"), settings = defaults)
 }

@@ -1,5 +1,4 @@
-package miniboxing.text
-package infrastructure
+package miniboxing.test.infrastructure
 
 import org.scalameter.CurveData
 import org.scalameter.api._

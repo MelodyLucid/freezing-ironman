@@ -7,7 +7,7 @@ import miniboxing.example.box.SpecializedBox
 import miniboxing.example.box.MutableMiniBox
 import miniboxing.example.box.MutableGenericBox
 import miniboxing.example.box.MutableSpecializedBox
-import miniboxing.text.infrastructure.FreezingTest
+import miniboxing.test.infrastructure.FreezingTest
 
 object BoxBenchmark extends FreezingTest {
 

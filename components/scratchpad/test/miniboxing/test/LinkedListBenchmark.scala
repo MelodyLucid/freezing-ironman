@@ -1,10 +1,10 @@
 package miniboxing.test
 
 import org.scalameter.Gen
-import miniboxing.text.infrastructure.FreezingTest
 import miniboxing.example.linkedlist.MiniboxedLinkedList
 import miniboxing.example.linkedlist.SpecializedLinkedList
 import miniboxing.example.linkedlist.GenericLinkedList
+import miniboxing.test.infrastructure.FreezingTest
 
 object LinkedListBenchmark extends FreezingTest {
   var outsider = 0.0

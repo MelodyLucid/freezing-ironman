@@ -38,48 +38,48 @@ class SpecializedLinkedList[@specialized T](implicit manifest: Manifest[T]) {
     amount -= 1
   }
   
-  def map[U](f: T => U)(implicit mu: Manifest[U]) = {
-    val linkedList = new SpecializedLinkedList[U]
-    var nodeInit = first
-    var nodeNew = linkedList.first
-    while (nodeInit.next != null) {
-      nodeInit = nodeInit.next
-      nodeNew.next = new SpecializedNode[U](f(nodeInit.elem), null)
-      nodeNew = nodeNew.next
-    }
-    linkedList.last = nodeNew
-    linkedList
-  }
-  
-  def filter(f: T => Boolean) = {
-    val linkedList = new SpecializedLinkedList[T]
-    var nodeInit = first
-    var nodeNew = linkedList.first
-    while (nodeInit.next != null) {
-      nodeInit = nodeInit.next
-      if (f(nodeInit.elem)) {
-        nodeNew.next = new SpecializedNode[T](nodeInit.elem, null)
-        nodeNew = nodeNew.next
-      }
-    }
-    linkedList.last = nodeNew
-    linkedList
-  }
-  
-  def fold[U](f: (U, T) => U, z: U) = {
-    var folded = z
-    var node = first
-    while (node.next != null) {
-      node = node.next
-      folded = f(folded, node.elem)
-    }
-    folded
-  }
-
-  def clear() {
-    first.next = null
-    last = first
-  }
+//  def map[U](f: T => U)(implicit mu: Manifest[U]) = {
+//    val linkedList = new SpecializedLinkedList[U]
+//    var nodeInit = first
+//    var nodeNew = linkedList.first
+//    while (nodeInit.next != null) {
+//      nodeInit = nodeInit.next
+//      nodeNew.next = new SpecializedNode[U](f(nodeInit.elem), null)
+//      nodeNew = nodeNew.next
+//    }
+//    linkedList.last = nodeNew
+//    linkedList
+//  }
+//  
+//  def filter(f: T => Boolean) = {
+//    val linkedList = new SpecializedLinkedList[T]
+//    var nodeInit = first
+//    var nodeNew = linkedList.first
+//    while (nodeInit.next != null) {
+//      nodeInit = nodeInit.next
+//      if (f(nodeInit.elem)) {
+//        nodeNew.next = new SpecializedNode[T](nodeInit.elem, null)
+//        nodeNew = nodeNew.next
+//      }
+//    }
+//    linkedList.last = nodeNew
+//    linkedList
+//  }
+//  
+//  def fold[U](f: (U, T) => U, z: U) = {
+//    var folded = z
+//    var node = first
+//    while (node.next != null) {
+//      node = node.next
+//      folded = f(folded, node.elem)
+//    }
+//    folded
+//  }
+//
+//  def clear() {
+//    first.next = null
+//    last = first
+//  }
 
   def toArray: Array[T] = {
     val array = new Array[T](amount)
@@ -123,4 +123,4 @@ class SpecializedLinkedList[@specialized T](implicit manifest: Manifest[T]) {
 
 }
 
-class SpecializedNode[T](var elem: T, var next: SpecializedNode[T])
+class SpecializedNode[@specialized T](var elem: T, var next: SpecializedNode[T])

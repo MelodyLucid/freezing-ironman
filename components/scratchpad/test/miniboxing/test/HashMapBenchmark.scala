@@ -5,7 +5,7 @@ import miniboxing.example.hashmap.MiniboxedHashMap
 import miniboxing.example.hashmap.SpecializedHashMap
 import miniboxing.example.hashmap.GenericHashMap
 import miniboxing.example.hashmap.MiniboxedSome
-import miniboxing.text.infrastructure.FreezingTest
+import miniboxing.test.infrastructure.FreezingTest
 
 object HashMapBenchmark extends FreezingTest {
   var outsider = 0.00

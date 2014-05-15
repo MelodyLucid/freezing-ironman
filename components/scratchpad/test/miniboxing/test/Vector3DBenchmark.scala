@@ -4,7 +4,7 @@ import org.scalameter.api._
 import miniboxing.example.vector3D.MiniboxedVector3D
 import miniboxing.example.vector3D.SpecializedVector3D
 import miniboxing.example.vector3D.GenericVector3D
-import miniboxing.text.infrastructure.FreezingTest
+import miniboxing.test.infrastructure.FreezingTest
 
 object Vector3DBenchmark extends FreezingTest {
 

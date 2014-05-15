@@ -1,11 +1,13 @@
 package miniboxing.test
 
-import org.scalameter.PerformanceTest
 import org.scalameter.Gen
-import miniboxing.example.triple.SpecializedTriple
+import org.scalameter.PerformanceTest
+
+import infrastructure.FreezingTest
 import miniboxing.example.triple.GenericTriple
 import miniboxing.example.triple.MiniboxedTriple
-import miniboxing.text.infrastructure.FreezingTest
+import miniboxing.example.triple.SpecializedTriple
+import miniboxing.test.infrastructure.FreezingTest
 
 object TripleBenchmark extends FreezingTest {
 

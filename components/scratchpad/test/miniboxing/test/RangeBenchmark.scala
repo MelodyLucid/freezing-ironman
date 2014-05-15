@@ -1,7 +1,6 @@
 package miniboxing.test
 
 import org.scalameter.api._
-import miniboxing.text.infrastructure.FreezingTest
 
 // we don't need this guy wasting our time with each full test:
 //

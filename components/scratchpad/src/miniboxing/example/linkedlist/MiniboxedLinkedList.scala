@@ -126,4 +126,4 @@ class MiniboxedLinkedList[@miniboxed T](implicit manifest: Manifest[T]) {
 
 }
 
-class MiniboxedNode[T](var elem: T, var next: MiniboxedNode[T])
+class MiniboxedNode[@miniboxed T](var elem: T, var next: MiniboxedNode[T])
