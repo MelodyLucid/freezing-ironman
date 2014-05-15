@@ -40,9 +40,7 @@ object BenchiTest extends App {
   }
   
   val xx = 17.0 :: 1.0 :: 2.0 :: 3.0 :: 4.0 :: 5.0 :: Nil
-  
-  println(xx.sum)
-  
+    
   val yy = 1 :: 2 :: 3 :: Nil
   val zz = "Hello" :: "World" :: "!" :: Nil
   
@@ -52,5 +50,7 @@ object BenchiTest extends App {
   
   val map = ww.map(new Function1[Int, Double] { def apply(t: Int): Double = t + 1.0 })(new ListBuilder)
   
-  println("This is so cool")
+  println(xx + " summed = " + xx.sum)
+  println(yy + " zip " + zz + " = " + zip)
+  println(ww + " mapped (t => t + 1) = " + map)
 }

@@ -21,10 +21,19 @@ abstract class List[+T] extends Iterable[T] {
   def size: Int
   
   def ::[S >: T](e1: S) : List[S] = new ::[S](e1, this)
+  
+  def reverse: List[T] = {
+    val it = iterator
+    var list: List[T] = Nil
+    while (it.hasNext) list = it.next :: list
+    list
+  }
 }
 
 case class ::[T](head: T, tail: List[T]) extends List[T] {
   def size = 1 + tail.size
+  
+  override def toString = head.toString + " :: " + tail.toString
 }
 
 case object Nil extends List[Nothing] {
@@ -32,4 +41,6 @@ case object Nil extends List[Nothing] {
   def tail = throw new NoSuchElementException("tail of empty list")
   
   def size = 0
+  
+  override def toString = "Nil"
 }

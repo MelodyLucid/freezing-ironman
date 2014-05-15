@@ -15,5 +15,5 @@ class ListBuilder[T] extends Builder[T, List[T]] {
     else head = new ::(e1, head)
   }
   
-  def finalise: List[T] = head
+  def finalise: List[T] = head.reverse
 }
