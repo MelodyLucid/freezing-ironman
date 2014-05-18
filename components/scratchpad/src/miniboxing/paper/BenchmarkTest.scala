@@ -48,9 +48,13 @@ object BenchiTest extends App {
   
   val ww = 1 :: 2 :: 3 :: Nil
   
-  val map = ww.map(new Function1[Int, Double] { def apply(t: Int): Double = t + 1.0 })
+  val func = new Function1[Int, Double] { 
+    def apply(t: Int): Double = t + 1.0
+  }
   
-  println(xx + " summed = " + xx.sum)
-  println(yy + " zip " + zz + " = " + zip)
-  println(ww + " mapped (t => t + 1) = " + map)
+  val map = ww.map(func)
+  
+  println("(" + xx + ") summed = (" + xx.sum + ")")
+  println("(" + yy + ") zip " + zz + " = " + zip + ")")
+  println("(" + ww + ") mapped (t => t + 1) = " + map + ")")
 }

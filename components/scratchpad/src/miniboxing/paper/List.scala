@@ -11,6 +11,7 @@ abstract class List[@miniboxed +T] extends Iterable[T] {
       t
     }
   }
+  
   def foreach[@miniboxed U](f: Function1[T, U]) {
     val it = iterator
     while (it.hasNext) f(it.next())
@@ -31,12 +32,14 @@ abstract class List[@miniboxed +T] extends Iterable[T] {
 }
 
 case class ::[T](head: T, tail: List[T]) extends List[T] {
+
   def size = 1 + tail.size
   
   override def toString = head.toString + " :: " + tail.toString
 }
 
 case object Nil extends List[Nothing] {
+
   def head = throw new NoSuchElementException("head of empty list")
   def tail = throw new NoSuchElementException("tail of empty list")
   

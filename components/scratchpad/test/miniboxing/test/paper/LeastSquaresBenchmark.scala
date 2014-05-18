@@ -31,7 +31,7 @@ object LeastSquaresBenchmark extends FreezingTest {
   //   approximation function = m*x + b
   performance of "List[Double]" in {
     measure method "Least Squares Method" in {
-     using(sizes) in {
+      using(sizes) in {
         size => 
           // generates random points from original function
           var listx: List[Double] = Nil
