@@ -64,7 +64,7 @@ object LeastSquaresBenchmark extends FreezingTest {
           val b = (sumy*squarex - sumx*sumxy) / (size*squarex - sumx*sumx)
           
           // was it a good approximation?
-          assert(m - step < 0.1, "m exceeded 10% of error : " + m + " instead of " + step)
+          assert(Math.abs(m - step) < 0.1, "m exceeded 10% of error : " + m + " instead of " + step)
           assert(b - zero < 0.1, "b exceeded 10% of error : " + b + " instead of " + zero)
       }
     }
