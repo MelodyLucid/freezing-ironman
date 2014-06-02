@@ -95,7 +95,7 @@ class SpecializedLinkedList[@specialized T](implicit manifest: Manifest[T]) {
   
   override def toString: String = "(" + toArray.mkString(" ") + ")"
   
-  private def getNode(i: Int): SpecializedNode[T] = {
+  def getNode(i: Int): SpecializedNode[T] = {
     if (i < 0) {
       throw new NoSuchElementException
     }
@@ -111,7 +111,7 @@ class SpecializedLinkedList[@specialized T](implicit manifest: Manifest[T]) {
     node
   }
   
-  private def addAfter(t: T, n: SpecializedNode[T]): Unit = {
+  def addAfter(t: T, n: SpecializedNode[T]): Unit = {
     val node = new SpecializedNode[T](t, n.next)
     if (last eq n) {
       last = node

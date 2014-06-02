@@ -3,7 +3,7 @@ package miniboxing.example.linkedlist
 class MiniboxedLinkedList[@miniboxed T](implicit manifest: Manifest[T]) {
 
   private var amount: Int = 0
-  private val first: MiniboxedNode[T] = new MiniboxedNode[T](null.asInstanceOf[T], null)
+  lazy private val first: MiniboxedNode[T] = new MiniboxedNode[T](null.asInstanceOf[T], null)
   private var last: MiniboxedNode[T] = first
 
   def add(t: T): Unit = addAfter(t, last)

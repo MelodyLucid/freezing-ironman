@@ -4,29 +4,28 @@ object BenchmarkTest extends App {
 
 //  val xx = List(1.2, 2.3, 3.0, 3.8, 4.7, 5.9)
 //  val yy = List(1.1, 2.1, 3.1, 4.0, 4.9, 5.9)
-  val xx = List(8,2,11,6,5,4,12,9,6,1)
-  val yy = List(3,10,3,6,8,12,1,4,9,14)
+  val xx = List(0,100000,200000,300000,400000,500000)
+  val yy = List(0,40.29115,85.81614,139.79412,200.15144,308.4586)
   val points = xx zip yy
   
-  val size = xx.size
+  val size: Double = xx.size
   
-  val sumx = xx.sum
-  val sumy = yy.sum
+  val sumx: Double = xx.sum
+  val sumy: Double = yy.sum
   
   println("sum x = " + sumx)
   println("sum y = " + sumy)
   
-  val squarex = (xx.map(x => x*x)).sum
+  val squarex: Double = (xx.map(x => x*x)).sum
   
   println("square x = " + squarex)
   
-  val sumxy = points.map(tuple => tuple._1 * tuple._2).sum
+  val sumxy: Double = points.map(tuple => tuple._1 * tuple._2).sum
   
   println("sumxy = " + sumxy)
   
   val m = (size*sumxy - sumx*sumy) / (size*squarex - sumx*sumx)
-  
-  val b = (sumy*squarex - sumx*sumxy)/(size*squarex - sumx*sumx)
+  val b = (sumy*squarex - sumx*sumxy) / (size*squarex - sumx*sumx)
   
   println("M = " + m + " b = " + b)
 }

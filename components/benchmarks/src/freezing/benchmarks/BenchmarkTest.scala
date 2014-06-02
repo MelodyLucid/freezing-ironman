@@ -7,23 +7,23 @@ import BenchType._
 
 object BenchmarkTest extends FreezingTest {
 
-//  import MacroHashMap._
-//
-//  benchmarkHashMap(Generic)
-//  benchmarkHashMap(Specialized)
-//  benchmarkHashMap(Miniboxed)
-//  
-//  import MacroLinkedList._
-//  
-//  benchmarkLinkedList(Generic)
-//  benchmarkLinkedList(Specialized)
-//  benchmarkLinkedList(Miniboxed)
+  import MacroHashMap._
+
+  benchmarkHashMap(Generic)
+  benchmarkHashMap(Specialized)
+  benchmarkHashMap(Miniboxed)
   
-  import MacroVector3D._
+  import MacroLinkedList._
   
-  benchmarkVector3D(Generic)
-  benchmarkVector3D(Specialized)
-  benchmarkVector3D(Miniboxed)
+  benchmarkLinkedList(Generic)
+  benchmarkLinkedList(Specialized)
+  benchmarkLinkedList(Miniboxed)
+  
+//  import MacroVector3D._
+//  
+//  benchmarkVector3D(Generic)
+//  benchmarkVector3D(Specialized)
+//  benchmarkVector3D(Miniboxed)
   
 //  import MacroTreeSet._
 //  
