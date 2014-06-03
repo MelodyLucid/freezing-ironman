@@ -6,7 +6,7 @@ import org.scalameter.Gen
 
 class HackMapBenchmark extends FreezingTest {
 
-  def rand = new scala.util.Random(0)
+  def rand(seed: Int) = new scala.util.Random(seed)
   
   val hackMap = new HackMap[Int, Double]
   val hashMap = new java.util.HashMap[Int, Double]
@@ -18,7 +18,7 @@ class HackMapBenchmark extends FreezingTest {
   val rdmHashMap = new java.util.HashMap[Int, Double]
   
   {
-    val random = rand
+    val random = rand(1)
     
     for (i <- 0 until 1000) {
       rdmHackMap.put(random.nextInt, random.nextDouble)
@@ -26,7 +26,7 @@ class HackMapBenchmark extends FreezingTest {
   }
   
   {
-    val random = rand
+    val random = rand(1)
     
     for (i <- 0 until 1000) {
       rdmHashMap.put(random.nextInt, random.nextDouble)
@@ -41,7 +41,7 @@ class HackMapBenchmark extends FreezingTest {
     measure method "put" in {
       using(genHack) in {
         hm =>
-          val random = rand
+          val random = rand(0)
           for (i <- 0 until 500000) {
             hm.put(random.nextInt, random.nextDouble)
           }
@@ -51,7 +51,7 @@ class HackMapBenchmark extends FreezingTest {
     measure method "get" in {
       using(genHack) in {
         hm =>
-          val random = rand
+          val random = rand(0)
           for (i <- 0 until 500000) {
             result += hm.get(random.nextInt)
           }
@@ -62,7 +62,7 @@ class HackMapBenchmark extends FreezingTest {
     measure method "put" in {
       using(genHash) in {
         hm =>
-          val random = rand
+          val random = rand(2)
           for (i <- 0 until 500000) {
             hm.put(random.nextInt, random.nextDouble)
           }
@@ -72,7 +72,7 @@ class HackMapBenchmark extends FreezingTest {
     measure method "get" in {
       using(genHash) in {
         hm =>
-          val random = rand
+          val random = rand(2)
           for (i <- 0 until 500000) {
             result += hm.get(random.nextInt)
           }
