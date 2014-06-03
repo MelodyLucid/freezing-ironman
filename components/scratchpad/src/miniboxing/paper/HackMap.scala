@@ -2,103 +2,139 @@ package miniboxing.paper
 
 import org.apache.commons.math3.analysis.function.Max
 
-class HackMap[K, V](var capacity: Int = 16, var loadFactor: Float = 0.75f) {
+class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
 
+  val maxCapacity = 1 << 30
+  var threshold: Int = 0
+  var size: Int = 0
+  var modCount: Int = 0
+  var table: Array[Entry[K,V]] = null
+  
   init()
   
-  val maxCapacity = 1 << 30
-  var threshold: Int = (loadFactor * capacity).toInt
-  
-  var table: Array[Entry[K,V]] = new Array[Entry[K,V]](capacity)
-  
   def init() {
-    if (capacity < 0) throw new IllegalArgumentException
-    if (capacity > maxCapacity) capacity = maxCapacity
-    var cap = 1
-    while (cap < capacity)
-      cap <<= 1
+    var capacity = initialCapacity
+    if (initialCapacity < 0) throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity)
+    if (initialCapacity > maxCapacity) capacity = maxCapacity
+    if (loadFactor <= 0 || loadFactor.isNaN) throw new IllegalArgumentException("Illegal loadFactor: " + loadFactor)
     
-    capacity = cap
+    // Find a power of 2 >= initialCapacity
+    var cap = 1
+    while (cap < capacity) {
+      cap <<= 1
+    }
+    
+    threshold = (loadFactor * capacity).toInt
+    table = new Array[Entry[K,V]](cap)
   }
-  /**
-   * Applies supplemental hash function to poor hashCode.
-   */
+  
   def hash(h: Int): Int = {
     val hash = h ^ (h >>> 20) ^ (h >>> 12)
     hash ^ (h >>> 7) ^ (h >>> 4)
   }
   
-  def indexFor(h: Int): Int = h & (capacity - 1)
+  def indexFor(h: Int, capa: Int): Int = h & (capa - 1)
   
   def get(key: K): V = {
     if (key == null) {
-      getNullKey()
+      return getNullKey()
     }
     val h = hash(key.hashCode)
     
-    var entry = table(indexFor(h))
-    if (entry.key == key) {
-      entry.value
-    }
-    while (entry.hasNext) {
-      entry = entry.next
-      if (entry.key == key) {
-        entry.value
-      } 
+    var e = table(indexFor(h, table.length))
+    while (e != null) {
+      if (e.key == key) {
+        return e.value
+      }
+      e = e.next
     }
     null.asInstanceOf[V]
   }
   
   def getNullKey(): V = {
-    var entry = table(0)
-    if (entry.key == null) {
-      entry.value
-    }
-    while (entry.hasNext) {
-      entry = entry.next
-      if (entry.key == null) {
-        entry.value
-      } 
+    var e = table(0)
+    while (e != null) {
+      if (e.key == null) {
+        return e.value
+      }
+      e = e.next
     }
     null.asInstanceOf[V]
   }
   
   def put(key: K, value: V): V = {
     if (key == null) {
-      putNullKey(value)
+      return putNullKey(value)
     }
     val h = hash(key.hashCode)
-    var i = indexFor(h)
+    val i = indexFor(h, table.length)
     var e = table(i)
-    if (e.hash == h && e.key == key) {
-      val oldValue = e.value
-      e.value = value
-      oldValue
-    }
-    while (e.hasNext) {
-      e = e.next
+    while (e != null) {
       if (e.hash == h && e.key == key) {
         val oldValue = e.value
         e.value = value
-        oldValue
+        return oldValue
       }
+      e = e.next
     }
-    
+    modCount += 1
     addEntry(h, key, value, i)
-    return null.asInstanceOf[V]
+    null.asInstanceOf[V]
+  }
+  
+  def putNullKey(value: V): V = {
+    var e = table(0)
+    while (e != null) {
+      if (e.key == null) {
+        val oldValue = e.value
+        e.value = value
+        return oldValue
+      }
+      e = e.next
+    }
+    modCount += 1
+    addEntry(0, null.asInstanceOf[K], value, 0)
+    null.asInstanceOf[V]
   }
   
   def addEntry(h: Int, key: K, value: V, bucketIndex: Int) {
     val e = table(bucketIndex)
-    table(bucketIndex) = new Entry[K, V](h, key, value, e)
-    if (size++ => threshold)
+    table(bucketIndex) = new Entry[K, V](key, value, e, h)
+    size += 1
+    if (size >= threshold) {
       resize(2 * table.length)
+    }
   }
   
   def resize(newCapacity: Int) {
     val oldCapacity = table.length
-    if (table.length == Integer.MAX_VALUE)
+    if (table.length == Integer.MAX_VALUE) {
       threshold = Integer.MAX_VALUE
+    }
+    else {
+      var newTable = new Array[Entry[K,V]](newCapacity)
+      transfer(newTable)
+      table = newTable
+      threshold = (newCapacity * loadFactor).toInt
+    }
+  }
+  
+  def transfer(newTable: Array[Entry[K,V]]) {
+    var src = table
+    val newCapacity = newTable.length
+    for (j <- 0 until src.length) {
+      var e = src(j)
+      if (e != null) {
+        src(j) = null
+        do {
+          var next = e.next
+          val i = indexFor(e.hash, newCapacity)
+          e.next = newTable(i)
+          newTable(i) = e
+          e = next
+        } while (e != null)
+      }
+    }
   }
 }
 
@@ -106,7 +142,4 @@ class HackMap[K, V](var capacity: Int = 16, var loadFactor: Float = 0.75f) {
 /**
  * Simply linked list of entries K -> V
  */
-class Entry[K, V](val key: K, var value: V, var next: Entry[K, V], val hash: Int) {
-  
-  def hasNext: Boolean = next != null
-}
+class Entry[K, V](val key: K, var value: V, var next: Entry[K, V], val hash: Int)
