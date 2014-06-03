@@ -23,7 +23,8 @@ trait FreezingTest extends PerformanceTest {
 
     override def report(result: CurveData, persistor: Persistor) {
       for (measurement <- result.measurements)
-        print(f"  ${result.context.scope}%30s: ${measurement.params}%-120s: ${measurement.value}% 10.5f\n")
+          print(f"  ${result.context.scope}%30s: ${measurement.value}% 10.5f\n")
+//        print(f"  ${result.context.scope}%30s: ${measurement.params}%-120s: ${measurement.value}% 10.5f\n")
     }
 
     override def report(result: Tree[CurveData], persistor: Persistor) = {
