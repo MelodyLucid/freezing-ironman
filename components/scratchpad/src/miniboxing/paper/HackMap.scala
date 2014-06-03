@@ -2,6 +2,16 @@ package miniboxing.paper
 
 import org.apache.commons.math3.analysis.function.Max
 
+/**
+ * HackMap is a copy of Java 7 HashMap, written in Scala, in order to compare
+ * corresponding results with Miniboxing.
+ * 
+ * Please note that the original source code and the documentation come from the
+ * official Java Library.
+ * 
+ * source: grepcode.com/file_/repository.grepcode.com/java/root/jdk/openjdk/7-b147/java/util/HashMap.java
+ */
+
 class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
 
   val maxCapacity = 1 << 30
@@ -14,9 +24,15 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
   
   def init() {
     var capacity = initialCapacity
-    if (initialCapacity < 0) throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity)
-    if (initialCapacity > maxCapacity) capacity = maxCapacity
-    if (loadFactor <= 0 || loadFactor.isNaN) throw new IllegalArgumentException("Illegal loadFactor: " + loadFactor)
+    if (initialCapacity < 0) {
+      throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity)
+    }
+    if (initialCapacity > maxCapacity) {
+      capacity = maxCapacity
+    }
+    if (loadFactor <= 0 || loadFactor.isNaN) {
+      throw new IllegalArgumentException("Illegal loadFactor: " + loadFactor)
+    }
     
     // Find a power of 2 >= initialCapacity
     var cap = 1
@@ -28,13 +44,38 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
     table = new Array[Entry[K,V]](cap)
   }
   
+  /**
+   * Applies a supplemental hash function to a given hashCode, which defends
+   * against poor quality hash functions. This is critical because HashMap uses
+   * power-of-two length hash tables, that otherwise encounter collisions for
+   * hashCodes that do not differ in lower bits.
+   * Note: Null keys always map to hash 0, thus index 0.
+   */
   def hash(h: Int): Int = {
+    // This function ensures that hashCodes that differ only by constant multiples
+    // at each bit position have a bounded number of collisions
+    // (approximately 8 at default load factor).
     val hash = h ^ (h >>> 20) ^ (h >>> 12)
     hash ^ (h >>> 7) ^ (h >>> 4)
   }
   
+  /**
+   * Returns index for hash code h.
+   */
   def indexFor(h: Int, capa: Int): Int = h & (capa - 1)
   
+  /**
+   * Returns the value to which the specified key is mapped, or null if this map
+   * contains no mapping for the key.
+   *
+   * More formally, if this map contains a mapping from a key k to a value v such
+   * that (key==null ? k==null : key.equals(k)), then this method returns v;
+   * otherwise it returns {@code null}.  (There can be at most one such mapping.)
+   *
+   * A return value of null does not necessarily indicate that the map contains
+   * no mapping for the key; it's also possible that the map explicitly maps the
+   * key to null.
+   */
   def get(key: K): V = {
     if (key == null) {
       return getNullKey()
@@ -51,6 +92,12 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
     null.asInstanceOf[V]
   }
   
+  /**
+   * Offloaded version of get() to look up null keys.  Null keys map to index 0.
+   * This null case is split out into separate methods for the sake of
+   * performance in the two most commonly used operations (get and put), but
+   * incorporated with conditionals in others.
+   */
   def getNullKey(): V = {
     var e = table(0)
     while (e != null) {
@@ -62,6 +109,10 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
     null.asInstanceOf[V]
   }
   
+  /**
+   * Associates the specified value with the specified key in this map. If the
+   * map previously contained a mapping for the key, the old value is replaced.
+   */
   def put(key: K, value: V): V = {
     if (key == null) {
       return putNullKey(value)
@@ -82,6 +133,9 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
     null.asInstanceOf[V]
   }
   
+  /**
+   * Offloaded version of put for null keys
+   */
   def putNullKey(value: V): V = {
     var e = table(0)
     while (e != null) {
@@ -97,6 +151,11 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
     null.asInstanceOf[V]
   }
   
+  /**
+   * Adds a new entry with the specified key, value and hash code to the
+   * specified bucket.  It is the responsibility of this method to resize
+   * the table if appropriate.
+   */
   def addEntry(h: Int, key: K, value: V, bucketIndex: Int) {
     val e = table(bucketIndex)
     table(bucketIndex) = new Entry[K, V](key, value, e, h)
@@ -106,6 +165,15 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
     }
   }
   
+  /**
+   * Rehashes the contents of this map into a new array with a larger capacity.
+   * This method is called automatically when the number of keys in this map
+   * reaches its threshold.
+   *
+   * If current capacity is MAXIMUM_CAPACITY, this method does not resize the
+   * map, but sets threshold to Integer.MAX_VALUE. This has the effect of
+   * preventing future calls.
+   */
   def resize(newCapacity: Int) {
     val oldCapacity = table.length
     if (table.length == Integer.MAX_VALUE) {
@@ -119,6 +187,9 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
     }
   }
   
+  /**
+   * Transfers all entries from current table to newTable.
+   */
   def transfer(newTable: Array[Entry[K,V]]) {
     var src = table
     val newCapacity = newTable.length
@@ -140,6 +211,8 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
 
 
 /**
- * Simply linked list of entries K -> V
+ * This is a simply linked list of entries K -> V, that allows to store 
+ * (key, value) pairs in the HashMap.
  */
+
 class Entry[K, V](val key: K, var value: V, var next: Entry[K, V], val hash: Int)
