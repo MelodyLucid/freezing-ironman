@@ -14,15 +14,15 @@ import org.apache.commons.math3.analysis.function.Max
 
 class HackMap[@miniboxed K, @miniboxed V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
 
-  val maxCapacity = 1 << 30
-  var threshold: Int = 0
+  var threshold: Int = _
   var size: Int = 0
   var modCount: Int = 0
-  var table: Array[Entry[K,V]] = new Array[Entry[K,V]](initialCapacity)
+  var table: Array[Entry[K,V]] = _
   
   init()
   
   def init() {
+    val maxCapacity = 1 << 30
     var capacity = initialCapacity
     if (initialCapacity < 0) {
       throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity)
