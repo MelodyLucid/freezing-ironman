@@ -4,7 +4,7 @@ import Process._
 
 object FreezingIronmanBuild extends Build {
 
-  val scalaVer = "2.10.4"
+  val scalaVer = "2.11.1"
   val paradiseVersion = "2.0.0"
 
   val defaults = Defaults.defaultSettings ++ Seq(
@@ -55,12 +55,12 @@ object FreezingIronmanBuild extends Build {
 
     // miniboxing plugin:
     resolvers += Resolver.sonatypeRepo("snapshots"),
-    libraryDependencies += "org.scala-miniboxing.plugins" %% "miniboxing-runtime" % "0.2-SNAPSHOT",
-    addCompilerPlugin("org.scala-miniboxing.plugins" %% "miniboxing-plugin" % "0.2-SNAPSHOT"),
+    libraryDependencies += "org.scala-miniboxing.plugins" %% "miniboxing-runtime" % "0.3-SNAPSHOT",
+    addCompilerPlugin("org.scala-miniboxing.plugins" %% "miniboxing-plugin" % "0.3-SNAPSHOT"),
     scalacOptions ++= (
       //"-P:minibox:log" ::    // enable the miniboxing plugin output
                              // (which explains what the plugin is doing
-      //"-P:minibox:two-way" :: // enable even better performance
+      "-P:minibox:two-way" :: // enable even better performance
       //"-Xprint:minibox-spec" ::
       "-P:minibox:hijack" :: // enable hijacking the @specialized annotations
       //                       // transforming them into @miniboxed annotations
@@ -70,8 +70,8 @@ object FreezingIronmanBuild extends Build {
     ),
 
     // scalameter and scalatest:
-    libraryDependencies ++= Seq("com.github.axel22" %% "scalameter" % "0.4",
-                                "org.scalatest" %% "scalatest" % "2.1.0" % "test",
+    libraryDependencies ++= Seq("com.github.axel22" %% "scalameter" % "0.5-M2",
+                                "org.scalatest" %% "scalatest" % "2.1.7" % "test",
                                 "junit" % "junit" % "4.8.1" % "test"),
     testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework"),
     parallelExecution in Test := false
