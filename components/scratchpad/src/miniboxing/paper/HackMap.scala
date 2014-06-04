@@ -12,13 +12,13 @@ import org.apache.commons.math3.analysis.function.Max
  * source: grepcode.com/file_/repository.grepcode.com/java/root/jdk/openjdk/7-b147/java/util/HashMap.java
  */
 
-class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
+class HackMap[@miniboxed K, @miniboxed V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
 
   val maxCapacity = 1 << 30
   var threshold: Int = 0
   var size: Int = 0
   var modCount: Int = 0
-  var table: Array[Entry[K,V]] = null
+  var table: Array[Entry[K,V]] = new Array[Entry[K,V]](initialCapacity)
   
   init()
   
@@ -215,4 +215,4 @@ class HackMap[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
  * (key, value) pairs in the HashMap.
  */
 
-class Entry[K, V](val key: K, var value: V, var next: Entry[K, V], val hash: Int)
+class Entry[@miniboxed K, @miniboxed V](val key: K, var value: V, var next: Entry[K, V], val hash: Int)
