@@ -11,14 +11,13 @@ package miniboxing.hackmap
  * source: grepcode.com/file_/repository.grepcode.com/java/root/jdk/openjdk/7-b147/java/util/HashMap.java
  */
 
-
-  /****************************************************************************
-   ****************************************************************************
-   *
-   *                            Generic Version
-   *
-   ****************************************************************************
-   ****************************************************************************/
+/****************************************************************************
+ ****************************************************************************
+ *
+ *                            Generic Version
+ *
+ ****************************************************************************
+ ****************************************************************************/
 
 class HackMapGeneric[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) extends java.io.Serializable {
 
@@ -59,20 +58,12 @@ class HackMapGeneric[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f)
    * hashCodes that do not differ in lower bits.
    * Note: Null keys always map to hash 0, thus index 0.
    */
-  def hash(k: K): Int = {
-
-    var h = 123 // hashSeed
-    if (0 != h && k.isInstanceOf[String]) {
-      return sun.misc.Hashing.stringHash32(k.asInstanceOf[String])
-    }
-
-    h = h ^ k.hashCode()
-
-    // This function ensures that hashCodes that differ only by
-    // constant multiples at each bit position have a bounded
-    // number of collisions (approximately 8 at default load factor).
-    h ^= (h >>> 20) ^ (h >>> 12)
-    h ^ (h >>> 7) ^ (h >>> 4)
+  def hash(h: Int): Int = {
+    // This function ensures that hashCodes that differ only by constant multiples
+    // at each bit position have a bounded number of collisions
+    // (approximately 8 at default load factor).
+    val hash = h ^ (h >>> 20) ^ (h >>> 12)
+    hash ^ (h >>> 7) ^ (h >>> 4)
   }
 
   /**
@@ -96,26 +87,16 @@ class HackMapGeneric[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f)
     if (key == null) {
       return getNullKey()
     }
-    val entry = getEntry(key)
+    val h = hash(key.hashCode)
 
-    if (null == entry) null.asInstanceOf[V] else entry.value
-  }
-
-  final def getEntry(key: K): GnEntry[K, V] = {
-    if (size == 0)
-      return null;
-
-    val hash2 = if (key == null) 0 else hash(key)
-    var e = table(indexFor(hash2, table.length))
+    var e = table(indexFor(h, table.length))
     while (e != null) {
-      if (e.hash == hash2) {
-        val k = e.key
-        if (key != null && key == k)
-          return e
+      if (e.key == key) {
+        return e.value
       }
       e = e.next
     }
-    null
+    null.asInstanceOf[V]
   }
 
   /**
@@ -143,7 +124,7 @@ class HackMapGeneric[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f)
     if (key == null) {
       return putNullKey(value)
     }
-    val h = hash(key)
+    val h = hash(key.hashCode)
     val i = indexFor(h, table.length)
     var e = table(i)
     while (e != null) {
