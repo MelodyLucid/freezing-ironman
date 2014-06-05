@@ -4,10 +4,10 @@ package miniboxing.hackmap
  * A HackMap is a copy of Java 7 HashMap, written in Scala, in order to compare
  * corresponding results with Generic type parameters, Specialization and
  * Miniboxing.
- * 
+ *
  * Please note that the original source code and the documentation come from the
  * official Java Library.
- * 
+ *
  * source: grepcode.com/file_/repository.grepcode.com/java/root/jdk/openjdk/7-b147/java/util/HashMap.java
  */
 
@@ -15,21 +15,21 @@ object HackMap {
 
   /****************************************************************************
    ****************************************************************************
-   * 
+   *
    *                            Generic Version
-   * 
+   *
    ****************************************************************************
    ****************************************************************************/
-  
-  class Generic[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
-  
+
+  class Generic[K, V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) extends java.io.Serializable {
+
     var threshold: Int = _
     var size: Int = 0
     var modCount: Int = 0
     var table: Array[GnEntry[K,V]] = _
-    
+
     init()
-    
+
     def init() {
       val maxCapacity = 1 << 30
       var capacity = initialCapacity
@@ -42,17 +42,17 @@ object HackMap {
       if (loadFactor <= 0 || loadFactor.isNaN) {
         throw new IllegalArgumentException("Illegal loadFactor: " + loadFactor)
       }
-      
+
       // Find a power of 2 >= initialCapacity
       var cap = 1
       while (cap < capacity) {
         cap <<= 1
       }
-      
+
       threshold = (loadFactor * capacity).toInt
       table = new Array[GnEntry[K,V]](cap)
     }
-    
+
     /**
      * Applies a supplemental hash function to a given hashCode, which defends
      * against poor quality hash functions. This is critical because HashMap uses
@@ -67,12 +67,12 @@ object HackMap {
       val hash = h ^ (h >>> 20) ^ (h >>> 12)
       hash ^ (h >>> 7) ^ (h >>> 4)
     }
-    
+
     /**
      * Returns index for hash code h.
      */
     def indexFor(h: Int, capa: Int): Int = h & (capa - 1)
-    
+
     /**
      * Returns the value to which the specified key is mapped, or null if this map
      * contains no mapping for the key.
@@ -90,7 +90,7 @@ object HackMap {
         return getNullKey()
       }
       val h = hash(key.hashCode)
-      
+
       var e = table(indexFor(h, table.length))
       while (e != null) {
         if (e.key == key) {
@@ -100,7 +100,7 @@ object HackMap {
       }
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Offloaded version of get() to look up null keys.  Null keys map to index 0.
      * This null case is split out into separate methods for the sake of
@@ -117,7 +117,7 @@ object HackMap {
       }
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Associates the specified value with the specified key in this map. If the
      * map previously contained a mapping for the key, the old value is replaced.
@@ -141,7 +141,7 @@ object HackMap {
       addEntry(h, key, value, i)
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Offloaded version of put for null keys
      */
@@ -159,7 +159,7 @@ object HackMap {
       addEntry(0, null.asInstanceOf[K], value, 0)
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Adds a new entry with the specified key, value and hash code to the
      * specified bucket.  It is the responsibility of this method to resize
@@ -173,7 +173,7 @@ object HackMap {
         resize(2 * table.length)
       }
     }
-    
+
     /**
      * Rehashes the contents of this map into a new array with a larger capacity.
      * This method is called automatically when the number of keys in this map
@@ -195,7 +195,7 @@ object HackMap {
         threshold = (newCapacity * loadFactor).toInt
       }
     }
-    
+
     /**
      * Transfers all entries from current table to newTable.
      */
@@ -217,24 +217,24 @@ object HackMap {
       }
     }
   }
-  
+
   /****************************************************************************
    ****************************************************************************
-   * 
+   *
    *                            Specialized Version
-   * 
+   *
    ****************************************************************************
    ****************************************************************************/
-  
-  class Specialized[@specialized K, @specialized V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
-  
+
+  class Specialized[@specialized K, @specialized V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) extends java.io.Serializable {
+
     var threshold: Int = _
     var size: Int = 0
     var modCount: Int = 0
     var table: Array[SpEntry[K,V]] = _
-    
+
     init()
-    
+
     def init() {
       val maxCapacity = 1 << 30
       var capacity = initialCapacity
@@ -247,17 +247,17 @@ object HackMap {
       if (loadFactor <= 0 || loadFactor.isNaN) {
         throw new IllegalArgumentException("Illegal loadFactor: " + loadFactor)
       }
-      
+
       // Find a power of 2 >= initialCapacity
       var cap = 1
       while (cap < capacity) {
         cap <<= 1
       }
-      
+
       threshold = (loadFactor * capacity).toInt
       table = new Array[SpEntry[K,V]](cap)
     }
-    
+
     /**
      * Applies a supplemental hash function to a given hashCode, which defends
      * against poor quality hash functions. This is critical because HashMap uses
@@ -272,12 +272,12 @@ object HackMap {
       val hash = h ^ (h >>> 20) ^ (h >>> 12)
       hash ^ (h >>> 7) ^ (h >>> 4)
     }
-    
+
     /**
      * Returns index for hash code h.
      */
     def indexFor(h: Int, capa: Int): Int = h & (capa - 1)
-    
+
     /**
      * Returns the value to which the specified key is mapped, or null if this map
      * contains no mapping for the key.
@@ -295,7 +295,7 @@ object HackMap {
         return getNullKey()
       }
       val h = hash(key.hashCode)
-      
+
       var e = table(indexFor(h, table.length))
       while (e != null) {
         if (e.key == key) {
@@ -305,7 +305,7 @@ object HackMap {
       }
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Offloaded version of get() to look up null keys.  Null keys map to index 0.
      * This null case is split out into separate methods for the sake of
@@ -322,7 +322,7 @@ object HackMap {
       }
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Associates the specified value with the specified key in this map. If the
      * map previously contained a mapping for the key, the old value is replaced.
@@ -346,7 +346,7 @@ object HackMap {
       addEntry(h, key, value, i)
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Offloaded version of put for null keys
      */
@@ -364,7 +364,7 @@ object HackMap {
       addEntry(0, null.asInstanceOf[K], value, 0)
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Adds a new entry with the specified key, value and hash code to the
      * specified bucket.  It is the responsibility of this method to resize
@@ -378,7 +378,7 @@ object HackMap {
         resize(2 * table.length)
       }
     }
-    
+
     /**
      * Rehashes the contents of this map into a new array with a larger capacity.
      * This method is called automatically when the number of keys in this map
@@ -400,7 +400,7 @@ object HackMap {
         threshold = (newCapacity * loadFactor).toInt
       }
     }
-    
+
     /**
      * Transfers all entries from current table to newTable.
      */
@@ -422,24 +422,24 @@ object HackMap {
       }
     }
   }
-  
+
   /****************************************************************************
    ****************************************************************************
-   * 
+   *
    *                            Miniboxed Version
-   * 
+   *
    ****************************************************************************
    ****************************************************************************/
-  
-  class Miniboxed[@miniboxed K, @miniboxed V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) {
-  
+
+  class Miniboxed[@miniboxed K, @miniboxed V](initialCapacity: Int = 16, loadFactor: Float = 0.75f) extends java.io.Serializable  {
+
     var threshold: Int = _
     var size: Int = 0
     var modCount: Int = 0
     var table: Array[MbEntry[K,V]] = _
-    
+
     init()
-    
+
     def init() {
       val maxCapacity = 1 << 30
       var capacity = initialCapacity
@@ -452,17 +452,17 @@ object HackMap {
       if (loadFactor <= 0 || loadFactor.isNaN) {
         throw new IllegalArgumentException("Illegal loadFactor: " + loadFactor)
       }
-      
+
       // Find a power of 2 >= initialCapacity
       var cap = 1
       while (cap < capacity) {
         cap <<= 1
       }
-      
+
       threshold = (loadFactor * capacity).toInt
       table = new Array[MbEntry[K,V]](cap)
     }
-    
+
     /**
      * Applies a supplemental hash function to a given hashCode, which defends
      * against poor quality hash functions. This is critical because HashMap uses
@@ -477,12 +477,12 @@ object HackMap {
       val hash = h ^ (h >>> 20) ^ (h >>> 12)
       hash ^ (h >>> 7) ^ (h >>> 4)
     }
-    
+
     /**
      * Returns index for hash code h.
      */
     def indexFor(h: Int, capa: Int): Int = h & (capa - 1)
-    
+
     /**
      * Returns the value to which the specified key is mapped, or null if this map
      * contains no mapping for the key.
@@ -500,7 +500,7 @@ object HackMap {
         return getNullKey()
       }
       val h = hash(key.hashCode)
-      
+
       var e = table(indexFor(h, table.length))
       while (e != null) {
         if (e.key == key) {
@@ -510,7 +510,7 @@ object HackMap {
       }
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Offloaded version of get() to look up null keys.  Null keys map to index 0.
      * This null case is split out into separate methods for the sake of
@@ -527,7 +527,7 @@ object HackMap {
       }
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Associates the specified value with the specified key in this map. If the
      * map previously contained a mapping for the key, the old value is replaced.
@@ -551,7 +551,7 @@ object HackMap {
       addEntry(h, key, value, i)
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Offloaded version of put for null keys
      */
@@ -569,7 +569,7 @@ object HackMap {
       addEntry(0, null.asInstanceOf[K], value, 0)
       null.asInstanceOf[V]
     }
-    
+
     /**
      * Adds a new entry with the specified key, value and hash code to the
      * specified bucket.  It is the responsibility of this method to resize
@@ -583,7 +583,7 @@ object HackMap {
         resize(2 * table.length)
       }
     }
-    
+
     /**
      * Rehashes the contents of this map into a new array with a larger capacity.
      * This method is called automatically when the number of keys in this map
@@ -605,7 +605,7 @@ object HackMap {
         threshold = (newCapacity * loadFactor).toInt
       }
     }
-    
+
     /**
      * Transfers all entries from current table to newTable.
      */
@@ -627,19 +627,22 @@ object HackMap {
       }
     }
   }
-  
-   
+
+
   /**
-   * This is a simply linked list of entries K -> V, that allows to store 
+   * This is a simply linked list of entries K -> V, that allows to store
    * (key, value) pairs in the HashMap.
    */
-  
+
   class GnEntry[K, V]
       (val key: K, var value: V, var next: GnEntry[K, V], val hash: Int)
-  
+       extends java.io.Serializable
+
   class SpEntry[@specialized K, @specialized V]
       (val key: K, var value: V, var next: SpEntry[K, V], val hash: Int)
-  
+       extends java.io.Serializable
+
   class MbEntry[@miniboxed K, @miniboxed V]
       (val key: K, var value: V, var next: MbEntry[K, V], val hash: Int)
+       extends java.io.Serializable
 }

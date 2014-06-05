@@ -4,11 +4,33 @@ import org.scalameter.CurveData
 import org.scalameter.api._
 import org.scalameter.Key
 import org.scalameter.utils.Tree
-import org.scalameter.execution.LocalExecutor
+import org.scalameter.KeyValue
+import org.scalameter.Executor.Measurer
+
 
 trait FreezingTest extends PerformanceTest {
 
+  def testSettings =
+    Seq[KeyValue](
+      exec.benchRuns -> 20,
+      exec.minWarmupRuns -> 10,
+      exec.minWarmupRuns -> 20,
+      exec.independentSamples -> 2,
+      exec.outliers.suspectPercent -> 50,
+      exec.jvmflags -> "-Xmx4g -Xms4g  -Xss4m -XX:+CMSClassUnloadingEnabled -XX:ReservedCodeCacheSize=256m -XX:-TieredCompilation -XX:+UseNUMA"
+    )
 
+  @transient lazy val executor = SeparateJvmsExecutor(
+    Executor.Warmer.Default(),
+    Aggregator.average,
+    new Executor.Measurer.Default
+  )
+
+  def measurer: Measurer =
+    new Measurer.IgnoringGC with Measurer.OutlierElimination with Measurer.RelativeNoise
+
+  def report(bench: String) =
+    println(s"Starting $bench benchmarks. Lay back, it might take a few minutes to stabilize...")
    // HTML reporter that doesn't work right now (maybe it only generates graphs for one file?)
 //  @transient lazy val reporter = Reporter.Composite(
 //      new RegressionReporter(
@@ -16,7 +38,7 @@ trait FreezingTest extends PerformanceTest {
 //          RegressionReporter.Historian.ExponentialBackoff() ),
 //      HtmlReporter(true)
 //  )
-  
+
   // Finally a less verbose reporter!
   @transient lazy val reporter = new LoggingReporter {
     println(FreezingTest.this.getClass.getName() + ":")
@@ -31,12 +53,6 @@ trait FreezingTest extends PerformanceTest {
       true
     }
   }
-
-  @transient lazy val executor = LocalExecutor.apply( //SeparateJvmsExecutor(
-    Executor.Warmer.Default(),
-    Aggregator.complete(Aggregator.average),
-    new Executor.Measurer.Default
-  )
 
   def persistor = Persistor.None
 }

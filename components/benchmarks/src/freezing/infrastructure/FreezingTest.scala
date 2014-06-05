@@ -16,7 +16,7 @@ trait FreezingTest extends PerformanceTest {
 //          RegressionReporter.Historian.ExponentialBackoff() ),
 //      HtmlReporter(true)
 //  )
-  
+
   // Finally a less verbose reporter!
   @transient lazy val reporter = new LoggingReporter {
     println(FreezingTest.this.getClass.getName() + ":")
@@ -33,7 +33,7 @@ trait FreezingTest extends PerformanceTest {
 
   @transient lazy val executor = LocalExecutor.apply( //SeparateJvmsExecutor(
     Executor.Warmer.Default(),
-    Aggregator.complete(Aggregator.average),
+    Aggregator.average,
     new Executor.Measurer.Default
   )
 

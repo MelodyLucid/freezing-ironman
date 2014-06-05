@@ -4,7 +4,7 @@ import Process._
 
 object FreezingIronmanBuild extends Build {
 
-  val scalaVer = "2.11.1"
+  val scalaVer = "2.10.4"
   val paradiseVersion = "2.0.0"
 
   val defaults = Defaults.defaultSettings ++ Seq(
@@ -59,23 +59,29 @@ object FreezingIronmanBuild extends Build {
     addCompilerPlugin("org.scala-miniboxing.plugins" %% "miniboxing-plugin" % "0.3-SNAPSHOT"),
     scalacOptions ++= (
       //"-P:minibox:log" ::    // enable the miniboxing plugin output
-                             // (which explains what the plugin is doing
-      "-P:minibox:two-way" :: // enable even better performance
+                             // which explains what the plugin is doing
+      //"-P:minibox:two-way" :: // enable even better performance
       //"-Xprint:minibox-spec" ::
       "-P:minibox:hijack" :: // enable hijacking the @specialized annotations
       //                       // transforming them into @miniboxed annotations
-      "-optimize" ::         // necessary to get the best performance when
+      // "-optimize" ::         // necessary to get the best performance when
                              // using the miniboxing plugin
+      "-P:minibox:no-logo" ::
       Nil
-    ),
+    )
+  ) ++ {
+    val scalaMeter  = "com.github.axel22" %% "scalameter" % "0.5-M2"
+    val scalaMeterFramework = new TestFramework("org.scalameter.ScalaMeterFramework")
 
-    // scalameter and scalatest:
-    libraryDependencies ++= Seq("com.github.axel22" %% "scalameter" % "0.5-M2",
-                                "org.scalatest" %% "scalatest" % "2.1.7" % "test",
-                                "junit" % "junit" % "4.8.1" % "test"),
-    testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework"),
-    parallelExecution in Test := false
-  )
+    Seq(
+      libraryDependencies ++= Seq(scalaMeter,
+                                  "org.scalatest" %% "scalatest" % "2.1.7" % "test",
+                                  "junit" % "junit" % "4.8.1" % "test"),
+      testFrameworks += scalaMeterFramework,
+      testOptions in ThisBuild += Tests.Argument(scalaMeterFramework, "-silent"),
+      parallelExecution in Test := false
+    )
+  }
 
   lazy val _freezing   = Project(id = "freezing",            base = file(".")) aggregate (macros, benchmarks, scratchpad)
   lazy val macros      = Project(id = "freezing-macros",     base = file("components/macros"), settings = defaults)
