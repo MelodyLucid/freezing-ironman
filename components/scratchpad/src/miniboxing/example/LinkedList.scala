@@ -30,7 +30,7 @@ trait Growable[@miniboxed -T] {
       }
     }
     xs match {
-      case xs: LinearSeqOptimized[_] => loop(xs)
+      case xs: LinearSeqOptimized[_] => loop(xs.asInstanceOf[LinearSeqOptimized[T]])
       case xs                        => {
         val func = new Function1[T, Unit] { def apply(t: T): Unit = +=(t) }
         xs.foreach(func)
@@ -245,7 +245,7 @@ object Dice extends App {
   val dice = 1 :: 2 :: 3 :: 4 :: 5 :: 6 :: Nil
   
   var result = dice
-  var rolls = 8
+  var rolls = 4
   
   while (rolls > 0) {
     
@@ -258,7 +258,11 @@ object Dice extends App {
       }
     }
     result = result.flatMap(f)
+    rolls -= 1
   }
+  
+  // follow method Stack Overflows when size > 4
+  println("Here is the size resulting: " + result.size)
 }
 
 
