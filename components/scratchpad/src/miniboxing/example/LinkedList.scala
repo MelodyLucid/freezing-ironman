@@ -248,7 +248,6 @@ object Dice extends App {
   var rolls = 4
   
   while (rolls > 0) {
-    
     val f = new Function1[Int, List[Int]] {
       def apply(t1: Int): List[Int] = {
         val f0 = new Function1[Int, Int] {
@@ -263,6 +262,25 @@ object Dice extends App {
   
   // follow method Stack Overflows when size > 4
   println("Here is the size resulting: " + result.size)
+}
+
+object SanityCheck extends App {
+  
+  val list = 1 :: 2 :: 3 :: Nil
+  val rawr = 10 :: 100 :: 1000 :: Nil
+  
+  val f = new Function1[Int, List[Int]] {
+      def apply(t1: Int): List[Int] = {
+        val f0 = new Function1[Int, Int] {
+          def apply(t2: Int): Int = t1 * t2
+        }
+        rawr.map(f0)
+      }
+    }
+  
+  val a = list.flatMap(f)
+  
+  println(a)
 }
 
 
